@@ -1,0 +1,19 @@
+[{
+        "id": 1,
+        "name": "John Doe",
+        "email": "john.d@email.com",
+        "address": "12, Jordan Street",
+        "city": "Brooklyn",
+        "state": "New York",
+        "phone": "9876543210"
+    },
+    {
+        "id": 2,
+        "name": "Ram Sharma",
+        "email": "ram.s@pmail.com",
+        "address": "3, Ravan Gali",
+        "city": "Ayodhya",
+        "state": "Uttar Pradesh",
+        "phone": "9876543210"
+    }
+]

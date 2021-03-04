@@ -1,0 +1,63 @@
+<div class="flex flex-column justify-between">
+    <header class="bg-black inter">
+        <nav class="db dt-l w-100 mw8 center border-box pa3">
+            <a routerLink="/" class="db dtc-l v-mid mid-gray link dim w-100 w-25-l tc tl-l mb2 mb0-l" title="Home">
+                <svg width="27" height="25" viewBox="0 0 27 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13.5 13L10.0355 16.4645C6.88571 19.6143 1.5 17.3835 1.5 12.9289V6C1.5 3.23858 3.73858 1 6.5 1H8.5C11.2614 1 13.5 3.23858 13.5 6V25M13.5 13L17.0147 9.48529C20.146 6.35401 25.5 8.5717 25.5 13V13C25.5 17.4283 20.146 19.646 17.0147 16.5147L13.5 13Z" stroke="white" stroke-width="2" />
+                </svg>
+            </a>
+            <div class="db dtc-l v-mid w-100 w-75-l tc tr-l">
+                <a mat-stroked-button color="accent" routerLink="/register">Register</a>
+                <div *ngIf="user && user.token; then thenNavLogOut else elseNavLogOut"></div>
+                <ng-template #thenNavLogOut>
+                    <button mat-button color="accent" [matMenuTriggerFor]="menu">Menu</button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item>Edit Profile</button>
+                        <button mat-menu-item (click)="logout()">Logout</button>
+                    </mat-menu>
+                </ng-template>
+                <ng-template #elseNavLogOut>
+                    <a mat-stroked-button color="accent" routerLink="/login">Login</a>
+                </ng-template>
+            </div>
+        </nav>
+    </header>
+
+    <!-- <h1>
+        {{isGuest}}
+    </h1> -->
+    <div *ngIf="user && user.role==='User'">
+        User Stuff
+    </div>
+    <div *ngIf="user && user.role==='AllocationManager'">
+        AllocationManager Stuff
+    </div>
+    <div *ngIf="user && user.role==='ParkingManager'">
+        ParkingManager Stuff
+    </div>
+    <div *ngIf="isGuest">
+        <div class="cover bg-left bg-center-l" style="background-image: url(/assets/header.webp)">
+            <div class="bg-black-50 pv3 pv4-m pv5-l">
+                <div class="tc-l pv3 pv4-m pv5-l ph3">
+                    <h1 class="f2 f2-m f1-l fw3 white-90 mb0 lh-title">Park Timely with MecPark</h1>
+                    <h2 class="fw2 f3 white-80 mt3 mb4">you just park, we'll worry about everything else</h2>
+                    <a routerLink="/signup" class="f6 no-underline dim dib v-mid bg-blue white ba b--blue br2 ph3 pv2 mb3">Get Started</a>
+                    <span class="dib v-mid ph3 white-70 mb3">or know</span>
+                    <a routerLink="/how-it-works" class="f6 no-underline dim dib v-mid white ba b--white br2 ph3 pv2 mb3">How it Works?</a>
+                </div>
+            </div>
+        </div>
+        <div class="cover bg-left bg-center-l bg-navy">
+            <div class="pv3 pv4-m pv5-l">
+                <div class="tc-l pv3 pv4-m pv5-l ph3">
+                    <h1 class="f2 f2-m f1-l fw3 white-90 mb0 lh-title">Want an easy parking management?
+                    </h1>
+                    <h2 class="fw2 f3 white-80 mt3 mb4">register below for hassle free management?</h2>
+                    <a routerLink="/register" class="f6 no-underline dim dib v-mid bg-blue white ba b--blue br2 ph3 pv2 mb3">Register</a>
+                    <span class="dib v-mid ph3 white-70 mb3">or </span>
+                    <a routerLink="/trial" class="f6 no-underline dim dib v-mid white ba b--white br2 ph3 pv2 mb3">See Trial</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
