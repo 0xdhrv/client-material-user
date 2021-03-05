@@ -130,14 +130,15 @@
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Cleaning Rate</mat-label>
             <input
+              *ngIf="hasCleaningServiceFlag==true"
               formControlName="cleaningRate"
               matInput
               placeholder="100"
             />
-            <mat-error *ngIf="f.cleaningRate.hasError('required')">
+            <mat-error *ngIf="f.cleaningRate && f.cleaningRate.hasError('required')">
                 Required
             </mat-error>
-            <mat-error *ngIf="f.cleaningRate.hasError('pattern')">
+            <mat-error *ngIf="f.cleaningRate && f.cleaningRate.hasError('pattern')">
                 Enter a Number
             </mat-error>
           </mat-form-field>

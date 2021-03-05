@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 export class CreateGarageComponent implements OnInit {
   createGarageForm: FormGroup;
   submitted = false;
-  hasCleaningServiceFlag = false;
+  hasCleaningServiceFlag: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -26,6 +26,7 @@ export class CreateGarageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.hasCleaningServiceFlag = false;
     this.createGarageForm = this.formBuilder.group({
       name: ['', Validators.required],
       address: ['', Validators.required],
@@ -42,7 +43,7 @@ export class CreateGarageComponent implements OnInit {
       ],
       parkingRate: ['', [Validators.required, Validators.pattern(/^[0-9]*$/)]],
       hasCleaningService: ['', Validators.required],
-      cleaningRate: ['', [Validators.required, Validators.pattern(/^[0-9]*$/)]]
+      cleaningRate: ['']
     });
   }
 
@@ -51,7 +52,17 @@ export class CreateGarageComponent implements OnInit {
   }
 
   updateCleaningRate() {
-    this.hasCleaningServiceFlag = !this.hasCleaningServiceFlag;
+    if (this.hasCleaningServiceFlag == false) {
+      this.hasCleaningServiceFlag = true;
+      this.createGarageForm.controls['cleaningRate'].reset();
+      this.createGarageForm.controls['cleaningRate'].setValidators([
+        Validators.required,
+        Validators.pattern(/^[0-9]*$/)
+      ]);
+    } else {
+      this.hasCleaningServiceFlag = false;
+      this.createGarageForm.controls['cleaningRate'].setValue('0');
+    }
   }
 
   onSubmit() {
@@ -64,27 +75,27 @@ export class CreateGarageComponent implements OnInit {
     alert(JSON.stringify(this.createGarageForm.value));
     console.log(JSON.stringify(this.createGarageForm.value));
 
-    this.garageService
-      .create(this.createGarageForm.value)
-      .pipe(first())
-      .subscribe(
-        (data) => {
-          this._snackBar.open(`✓ Garage Created`, '', {
-            duration: 1500,
-            horizontalPosition: 'right',
-            verticalPosition: 'bottom'
-          });
-        },
-        (error) => {
-          this._snackBar.open(`✗ Error ${error.error.message}`, '', {
-            duration: 1500,
-            horizontalPosition: 'right',
-            verticalPosition: 'bottom'
-          });
-          this.onReset();
-          console.log(error);
-        }
-      );
+    // this.garageService
+    //   .create(this.createGarageForm.value)
+    //   .pipe(first())
+    //   .subscribe(
+    //     (data) => {
+    //       this._snackBar.open(`✓ Garage Created`, '', {
+    //         duration: 1500,
+    //         horizontalPosition: 'right',
+    //         verticalPosition: 'bottom'
+    //       });
+    //     },
+    //     (error) => {
+    //       this._snackBar.open(`✗ Error ${error.error.message}`, '', {
+    //         duration: 1500,
+    //         horizontalPosition: 'right',
+    //         verticalPosition: 'bottom'
+    //       });
+    //       this.onReset();
+    //       console.log(error);
+    //     }
+    //   );
   }
 
   onReset() {
