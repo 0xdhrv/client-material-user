@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-import { MustMatch } from '../_helpers/must-match.validator';
 
 import { UserService } from '../_services/user.service';
 import { Router } from '@angular/router';

@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { first } from 'rxjs/operators';
 
 import { UserService } from '../_services/user.service';
 
@@ -10,9 +12,16 @@ import { UserService } from '../_services/user.service';
 })
 export class HomeComponent implements OnInit {
   user: any;
+  parkingManager: any;
   isGuest = true;
 
   constructor(private userService: UserService, private router: Router) {
+    this.isGuest = true;
+  }
+
+  delete(): void {
+    this.userService.delete(this.user.id).pipe(first()).subscribe();
+    this.userService.logout();
     this.isGuest = true;
   }
 
@@ -31,6 +40,10 @@ export class HomeComponent implements OnInit {
       } else {
         this.isGuest = true;
       }
+    });
+    this.userService.getParkingManager(this.user.id).subscribe((data) => {
+      this.parkingManager = data;
+      console.log(this.parkingManager);
     });
   }
 }

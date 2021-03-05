@@ -17,10 +17,10 @@ export class HttpProviderService {
   }
 
   Update<T>(uri: string, params?: any): Observable<T> {
-    return this.http.put<T>(`${uri}/${params}/${params.id}`, params);
+    return this.http.put<T>(`${uri}`, params);
   }
 
-  Delete<T>(uri: string, params?: any) {
-    return this.http.delete<T>(`${uri}/${params.id}`, params);
+  Delete<T>(uri: string, param?: any) {
+    return this.http.delete<T>(`${uri}/${param}`);
   }
 }

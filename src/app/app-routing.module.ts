@@ -6,6 +6,8 @@ import { LoginComponent } from './login/login.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { SignupComponent } from './signup/signup.component';
 import { RegisterComponent } from './register/register.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
+import { CreateGarageComponent } from './create-garage/create-garage.component';
 
 const routes: Routes = [
   {
@@ -46,6 +48,20 @@ const routes: Routes = [
     component: RegisterComponent,
     data: {
       title: 'Register'
+    }
+  },
+  {
+    path: 'edit-user',
+    component: EditUserComponent,
+    data: {
+      title: 'Edit User'
+    }
+  },
+  {
+    path: 'create-garage',
+    component: CreateGarageComponent,
+    data: {
+      title: 'Create Garage'
     }
   }
 ];

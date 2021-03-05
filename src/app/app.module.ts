@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +19,12 @@ import { UserService } from './_services/user.service';
 import { MaterialModule } from './material.module';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { HttpProviderService } from './_services/http-provider.service';
+import { EditUserComponent } from './edit-user/edit-user.component';
+import { JwtInterceptor } from './_helpers/jwt.interceptor';
+import { CreateGarageComponent } from './create-garage/create-garage.component';
+import { EditGarageComponent } from './edit-garage/edit-garage.component';
+import { CreateSpaceComponent } from './create-space/create-space.component';
+import { EditSpaceComponent } from './edit-space/edit-space.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +33,12 @@ import { HttpProviderService } from './_services/http-provider.service';
     LoginComponent,
     ForgotPasswordComponent,
     SignupComponent,
-    RegisterComponent
+    RegisterComponent,
+    EditUserComponent,
+    CreateGarageComponent,
+    EditGarageComponent,
+    CreateSpaceComponent,
+    EditSpaceComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +50,16 @@ import { HttpProviderService } from './_services/http-provider.service';
     LoadingBarRouterModule,
     HttpClientModule
   ],
-  providers: [Title, UserService, HttpProviderService],
+  providers: [
+    Title,
+    UserService,
+    HttpProviderService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

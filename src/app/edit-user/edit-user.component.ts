@@ -10,22 +10,14 @@ import { MustMatch } from '../_helpers/must-match.validator';
 import { UserService } from '../_services/user.service';
 import { Router } from '@angular/router';
 
-interface Role {
-  value: string;
-  viewValue: string;
-}
-
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  selector: 'app-edit-user',
+  templateUrl: './edit-user.component.html',
+  styleUrls: ['./edit-user.component.css']
 })
-export class RegisterComponent implements OnInit {
-  roles: Role[] = [
-    { value: 'AllocationManager', viewValue: 'Allocation Manager' },
-    { value: 'ParkingManager', viewValue: 'Parking Manager' }
-  ];
-  registerForm: FormGroup;
+export class EditUserComponent implements OnInit {
+  user: any;
+  editForm: FormGroup;
   submitted = false;
 
   constructor(
@@ -36,7 +28,9 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.registerForm = this.formBuilder.group(
+    this.user = this.userService.userValue;
+    console.log(this.user);
+    this.editForm = this.formBuilder.group(
       {
         name: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
@@ -52,7 +46,6 @@ export class RegisterComponent implements OnInit {
             Validators.maxLength(10)
           ]
         ],
-        role: ['', Validators.required],
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', Validators.required]
       },
@@ -60,35 +53,41 @@ export class RegisterComponent implements OnInit {
         validator: MustMatch('password', 'confirmPassword')
       }
     );
+
+    console.log(this.user.id);
+
+    this.userService
+      .getById(this.user.id)
+      .pipe(first())
+      .subscribe((x) => this.editForm.patchValue(x));
   }
 
   hide = true;
 
   get f() {
-    return this.registerForm.controls;
+    return this.editForm.controls;
   }
 
   onSubmit() {
     this.submitted = true;
 
-    if (this.registerForm.invalid) {
+    if (this.editForm.invalid) {
       return;
     }
 
-    alert(JSON.stringify(this.registerForm.value));
+    alert(JSON.stringify(this.editForm.value));
 
     this.userService
-      .register(this.registerForm.value)
+      .update(this.editForm.value, this.user.id)
       .pipe(first())
       .subscribe(
         (data) => {
-          this._snackBar.open(`✓ ${this.f.role.value} Signed Up`, '', {
+          this._snackBar.open('✓ Edited', '', {
             duration: 1500,
             horizontalPosition: 'right',
             verticalPosition: 'bottom'
           });
-          console.log('User Registration Success');
-          this.router.navigate(['/login']);
+          // this.router.navigate(['/home']);
         },
         (error) => {
           this._snackBar.open(`✗ Error ${error.error.message}`, '', {
@@ -104,6 +103,6 @@ export class RegisterComponent implements OnInit {
 
   onReset() {
     this.submitted = false;
-    this.registerForm.reset();
+    this.editForm.reset();
   }
 }

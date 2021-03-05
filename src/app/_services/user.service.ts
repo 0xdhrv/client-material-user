@@ -3,6 +3,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../_models/user';
+import { ParkingManager } from '../_models/parkingManager';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
@@ -12,6 +13,8 @@ import { HttpProviderService } from '../_services/http-provider.service';
 export class UserService {
   private userSubject: BehaviorSubject<any>;
   public user: Observable<User>;
+  private parkingManagerSubject: BehaviorSubject<any>;
+  public parkingManager: Observable<ParkingManager>;
 
   constructor(private router: Router, private http: HttpProviderService) {
     this.userSubject = new BehaviorSubject<any>(
@@ -22,6 +25,14 @@ export class UserService {
 
   public get userValue(): User {
     return this.userSubject.value;
+  }
+
+  public get parkingManagerValue(): ParkingManager {
+    return this.parkingManagerSubject.value;
+  }
+
+  getById(id: string) {
+    return this.http.Get(`${environment.apiUrl}/users`, id);
   }
 
   register(user: User) {
@@ -43,13 +54,20 @@ export class UserService {
       );
   }
 
-  update(id: number) {
-    return this.http.Update(`${environment.apiUrl}/users/`, id);
+  update(user: User, id: string) {
+    return this.http.Update(`${environment.apiUrl}/users/${id}`, user);
+  }
+
+  delete(id: string) {
+    return this.http.Delete(`${environment.apiUrl}/users`, id);
   }
 
   logout() {
     localStorage.removeItem('user');
     this.userSubject.next(null);
-    // this.router.navigate(['/home']);
+  }
+
+  getParkingManager(id: string) {
+    return this.http.Get(`${environment.apiUrl}/users/parkingmanagers`, id);
   }
 }
