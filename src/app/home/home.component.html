@@ -53,12 +53,24 @@
     <div class="cover bg-left bg-center-l">
       <div class="bg-black-50 pv3 pv4-m pv5-l">
         <div class="tc-l pv3 pv4-m pv5-l ph3">
-          <!-- <h1>{{parkingManager && parkingManager.garageId}}</h1> -->
+          <h1>{{parkingManager && parkingManager.garageId}}</h1>
+          <h1>{{garage && garage.name}}</h1>
           <a
             *ngIf="parkingManager && parkingManager.garageId < 1"
             routerLink="/create-garage"
             class="f6 no-underline dim dib v-mid bg-blue white ba b--blue br2 ph3 pv2 mb3"
             >Create Garage</a
+          >
+          <h4
+            *ngIf="parkingManager && parkingManager.garageId > 0"
+            class="f6 no-underline dim dib v-mid black ph3 pv2 mb3"
+            >{{garage && garage.name}}</h4
+          >
+          <a
+            *ngIf="parkingManager && parkingManager.garageId > 0"
+            routerLink="/edit-garage"
+            class="f6 no-underline dim dib v-mid bg-blue white ba b--blue br2 ph3 pv2 mb3"
+            >Edit Garage</a
           >
         </div>
       </div>

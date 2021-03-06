@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 })
 export class EditUserComponent implements OnInit {
   user: any;
-  editForm: FormGroup;
+  editUserForm: FormGroup;
   submitted = false;
 
   constructor(
@@ -27,10 +27,10 @@ export class EditUserComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.user = this.userService.userValue;
     console.log(this.user);
-    this.editForm = this.formBuilder.group(
+    this.editUserForm = this.formBuilder.group(
       {
         name: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
@@ -59,26 +59,26 @@ export class EditUserComponent implements OnInit {
     this.userService
       .getById(this.user.id)
       .pipe(first())
-      .subscribe((x) => this.editForm.patchValue(x));
+      .subscribe((x) => this.editUserForm.patchValue(x));
   }
 
   hide = true;
 
   get f() {
-    return this.editForm.controls;
+    return this.editUserForm.controls;
   }
 
   onSubmit() {
     this.submitted = true;
 
-    if (this.editForm.invalid) {
+    if (this.editUserForm.invalid) {
       return;
     }
 
-    alert(JSON.stringify(this.editForm.value));
+    alert(JSON.stringify(this.editUserForm.value));
 
     this.userService
-      .update(this.editForm.value, this.user.id)
+      .update(this.editUserForm.value, this.user.id)
       .pipe(first())
       .subscribe(
         (data) => {
@@ -103,6 +103,6 @@ export class EditUserComponent implements OnInit {
 
   onReset() {
     this.submitted = false;
-    this.editForm.reset();
+    this.editUserForm.reset();
   }
 }

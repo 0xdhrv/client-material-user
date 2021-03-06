@@ -121,16 +121,15 @@
             color="primary"
             formControlName="hasCleaningService"
             name="hasCleaningService"
-            (ngModelChange)="updateCleaningRate()"
+            (change)="ucr($event)"
             >Cleaning Service</mat-checkbox
           >
         </div>
 
-        <div class="mt2" *ngIf="hasCleaningServiceFlag==true">
+        <div class="mt2" *ngIf="hasCleaningServiceFlag">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Cleaning Rate</mat-label>
             <input
-              *ngIf="hasCleaningServiceFlag==true"
               formControlName="cleaningRate"
               matInput
               placeholder="100"

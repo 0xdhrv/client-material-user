@@ -1,7 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl
+} from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -26,8 +32,9 @@ export class CreateGarageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.hasCleaningServiceFlag = false;
+    // console.log(this.hasCleaningServiceFlag);
     this.createGarageForm = this.formBuilder.group({
+      // name: this.formBuilder.control();
       name: ['', Validators.required],
       address: ['', Validators.required],
       city: ['', Validators.required],
@@ -42,9 +49,13 @@ export class CreateGarageComponent implements OnInit {
         ]
       ],
       parkingRate: ['', [Validators.required, Validators.pattern(/^[0-9]*$/)]],
-      hasCleaningService: ['', Validators.required],
-      cleaningRate: ['']
+      hasCleaningService: ['', Validators.required]
+      // cleaningRate: ['']
     });
+
+    // this.createGarageForm.controls['cleaningRate'].setValue('0');
+    // this.createGarageForm.controls['cleaningRate'].clearValidators();
+    // console.log(this.createGarageForm.controls['cleaningRate'].value);
   }
 
   get f() {
@@ -52,23 +63,51 @@ export class CreateGarageComponent implements OnInit {
   }
 
   updateCleaningRate() {
-    if (this.hasCleaningServiceFlag == false) {
-      this.hasCleaningServiceFlag = true;
-      this.createGarageForm.controls['cleaningRate'].reset();
+    this.hasCleaningServiceFlag = !this.hasCleaningServiceFlag;
+    if (this.hasCleaningServiceFlag == true) {
+      console.log('Value N');
+      this.createGarageForm.addControl('cleaningRate', new FormControl());
       this.createGarageForm.controls['cleaningRate'].setValidators([
         Validators.required,
         Validators.pattern(/^[0-9]*$/)
       ]);
+      // this.createGarageForm.controls['cleaningRate'].reset();
+      // this.createGarageForm.controls['cleaningRate'].setValidators([
+      //   Validators.required,
+      //   Validators.pattern(/^[0-9]*$/)
+      // ]);
     } else {
-      this.hasCleaningServiceFlag = false;
-      this.createGarageForm.controls['cleaningRate'].setValue('0');
+      this.createGarageForm.removeControl('cleaningRate');
+      // this.createGarageForm.controls['cleaningRate'].setValue('0');
+      // this.createGarageForm.controls['cleaningRate'].clearValidators();
+      console.log(this.createGarageForm.controls['cleaningRate'].value);
+    }
+  }
+
+  ucr(event: any) {
+    this.hasCleaningServiceFlag = event.checked;
+    console.log(event.checked);
+    console.log('Old :', this.createGarageForm);
+    if (event.checked) {
+      this.createGarageForm.addControl('cleaningRate', new FormControl());
+      console.log('Added :', this.createGarageForm);
+    } else {
+      this.createGarageForm.removeControl('cleaningRate');
+      console.log('Removed :', this.createGarageForm);
     }
   }
 
   onSubmit() {
     this.submitted = true;
 
+    console.log(this.createGarageForm.errors);
+
+    // console.log(this.createGarageForm.;
+
     if (this.createGarageForm.invalid) {
+      console.log('here we go');
+      // alert(JSON.stringify(this.createGarageForm.value));
+      // console.log(JSON.stringify(this.createGarageForm.value));
       return;
     }
 

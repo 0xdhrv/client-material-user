@@ -21,15 +21,17 @@ export class UserService {
       JSON.parse(localStorage.getItem('user') || '{}')
     );
     this.user = this.userSubject.asObservable();
+    // this.parkingManagerSubject = new BehaviorSubject<any>(JSON.parse('{}'));
+    // this.parkingManager = this.parkingManagerSubject.asObservable();
   }
 
   public get userValue(): User {
     return this.userSubject.value;
   }
 
-  public get parkingManagerValue(): ParkingManager {
-    return this.parkingManagerSubject.value;
-  }
+  // public get parkingManagerValue(): ParkingManager {
+  //   return this.parkingManagerSubject.value;
+  // }
 
   getById(id: string) {
     return this.http.Get(`${environment.apiUrl}/users`, id);

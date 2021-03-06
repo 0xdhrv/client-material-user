@@ -1,0 +1,199 @@
+<h1>Form</h1>
+<div class="flex flex-column justify-between">
+  <main class="pa4 black-80 spacer">
+    <form
+      class="measure center mt4 pt4"
+      [formGroup]="createGarageForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <fieldset id="create_garage" class="ba b--transparent black ph0 mh0">
+        <legend class="f4 fw6 ph0 mh0">Create Garage</legend>
+        <div class="mt2">
+          <div class="w-100" appearance="outline">
+            <label>Name</label>
+            <input formControlName="name" matInput placeholder="John Doe" />
+            <div *ngIf="f.name.hasError('required')">Required</div>
+          </div>
+        </div>
+
+        <div class="mt2">
+          <div class="w-100" appearance="outline">
+            <label>Address</label>
+            <textarea
+              formControlName="address"
+              matInput
+              placeholder="25, Jordan Street"
+            ></textarea>
+            <div *ngIf="f.address.hasError('required')">Required</div>
+          </div>
+        </div>
+        <div class="mt2">
+          <div class="w-100" appearance="outline">
+            <label>City</label>
+            <input formControlName="city" matInput placeholder="John Doe" />
+            <div *ngIf="f.city.hasError('required')">Required</div>
+          </div>
+        </div>
+        <div class="mt2">
+          <div class="w-100" appearance="outline">
+            <label>State</label>
+            <input formControlName="state" matInput placeholder="John Doe" />
+            <div *ngIf="f.state.hasError('required')">Required</div>
+          </div>
+        </div>
+        <div class="mt2">
+          <div class="w-100" appearance="outline">
+            <label>Phone</label>
+            <input
+              formControlName="phone"
+              type="tel"
+              matInput
+              placeholder="98765 43210"
+            />
+            <div *ngIf="f.phone.hasError('required')">Required</div>
+            <div
+              *ngIf="
+                f.phone.hasError('minlength') ||
+                f.phone.hasError('maxlength') ||
+                f.phone.hasError('pattern')
+              "
+            >
+              Invalid Phone Number
+            </div>
+          </div>
+        </div>
+
+        <div class="mt2">
+          <div class="w-100" appearance="outline">
+            <label>Parking Rate</label>
+            <input formControlName="parkingRate" matInput placeholder="100" />
+            <div *ngIf="f.parkingRate.hasError('required')">Required</div>
+            <div *ngIf="f.parkingRate.hasError('pattern')">Enter a Number</div>
+          </div>
+        </div>
+
+        <div class="mv4">
+          <label for="asd">CS</label>
+          <input
+            type="checkbox"
+            formControlName="hasCleaningService"
+            name="hasCleaningService"
+            (change)="ucr($event)"
+          />
+        </div>
+
+        <div class="mt2" *ngIf="hasCleaningServiceFlag">
+          <div class="w-100" appearance="outline">
+            <label>Cleaning Rate</label>
+            <input formControlName="cleaningRate" matInput placeholder="100" />
+            <div *ngIf="f.cleaningRate && f.cleaningRate.hasError('required')">
+              Required
+            </div>
+            <div *ngIf="f.cleaningRate && f.cleaningRate.hasError('pattern')">
+              Enter a Number
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <br />
+
+      <div class="mv2">
+        <button class="w-100" mat-stroked-button color="primary">Create</button>
+      </div>
+    </form>
+  </main>
+</div>
+
+
+
+
+
+
+TSSSSSSSSSSSSSs
+
+
+
+
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+} from '@angular/forms';
+import { first } from 'rxjs/operators';
+
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-form',
+  templateUrl: './form.component.html',
+  styleUrls: ['./form.component.scss'],
+})
+export class FormComponent implements OnInit {
+  createGarageForm: FormGroup;
+  submitted = false;
+  hasCleaningServiceFlag: boolean;
+
+  constructor(private formBuilder: FormBuilder, private router: Router) {}
+
+  ngOnInit(): void {
+    // console.log(this.hasCleaningServiceFlag);
+    this.createGarageForm = this.formBuilder.group({
+      // name: this.formBuilder.control();
+      name: this.formBuilder.control('', [Validators.required]),
+      address: this.formBuilder.control('', [Validators.required]),
+      state: this.formBuilder.control('', [Validators.required]),
+      city: this.formBuilder.control('', [Validators.required]),
+      phone: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[0-9]*$/),
+          Validators.minLength(10),
+          Validators.maxLength(10),
+        ],
+      ],
+      parkingRate: this.formBuilder.control(100),
+      hasCleaningService: this.formBuilder.control(false),
+    });
+  }
+
+  get f() {
+    return this.createGarageForm.controls;
+  }
+
+  ucr(event: any) {
+    this.hasCleaningServiceFlag = event.target.checked;
+    console.log(event.target.checked);
+    console.log('Old :', this.createGarageForm);
+    if (event.target.checked) {
+      this.createGarageForm.addControl(
+        'cleaningRate',
+        this.formBuilder.control(500, [Validators.required])
+      );
+      console.log('Added :', this.createGarageForm);
+    } else {
+      this.createGarageForm.removeControl('cleaningRate');
+      console.log('Removed :', this.createGarageForm);
+    }
+  }
+
+  onSubmit() {
+    this.submitted = true;
+
+    if (this.createGarageForm.invalid) {
+      console.log('here we go');
+      alert(JSON.stringify(this.createGarageForm.value));
+      console.log(JSON.stringify(this.createGarageForm.value));
+      return;
+    } else {
+      console.log('all good');
+    }
+  }
+
+  onReset() {
+    this.submitted = false;
+    this.createGarageForm.reset();
+  }
+}
