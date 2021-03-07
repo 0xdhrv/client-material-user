@@ -33,24 +33,22 @@ export class EditGarageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.hasCleaningServiceFlag = false;
     this.editGarageForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      address: ['', Validators.required],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      phone: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(/^[0-9]*$/),
-          Validators.minLength(10),
-          Validators.maxLength(10)
-        ]
-      ],
-      parkingRate: ['', [Validators.required, Validators.pattern(/^[0-9]*$/)]],
-      hasCleaningService: ['', Validators.required],
-      cleaningRate: ['']
+      name: this.formBuilder.control('', [Validators.required]),
+      address: this.formBuilder.control('', [Validators.required]),
+      city: this.formBuilder.control('', [Validators.required]),
+      state: this.formBuilder.control('', [Validators.required]),
+      phone: this.formBuilder.control('', [
+        Validators.required,
+        Validators.pattern(/^[0-9]*$/),
+        Validators.minLength(10),
+        Validators.maxLength(10)
+      ]),
+      parkingRate: this.formBuilder.control('', [
+        Validators.required,
+        Validators.pattern(/^[0-9]*$/)
+      ]),
+      hasCleaningService: this.formBuilder.control('', [Validators.required])
     });
 
     this.userService.user.subscribe((user) => {
@@ -69,6 +67,7 @@ export class EditGarageComponent implements OnInit {
             .getById(this.garageId.toString())
             .pipe()
             .subscribe((y) => {
+              console.log(y);
               this.editGarageForm.patchValue(y);
             });
         });
@@ -89,51 +88,46 @@ export class EditGarageComponent implements OnInit {
     return this.editGarageForm.controls;
   }
 
-  updateCleaningRate() {
-    if (this.hasCleaningServiceFlag == false) {
-      this.hasCleaningServiceFlag = true;
+  updateCleaningRate(event: any) {
+    this.hasCleaningServiceFlag = event.checked;
+    if (event.checked) {
       this.editGarageForm.controls['cleaningRate'].reset();
       this.editGarageForm.controls['cleaningRate'].setValidators([
-        Validators.required,
-        Validators.pattern(/^[0-9]*$/)
+        Validators.required
       ]);
     } else {
-      this.hasCleaningServiceFlag = false;
       this.editGarageForm.controls['cleaningRate'].setValue('0');
+      this.editGarageForm.controls['cleaningRate'].clearValidators();
     }
   }
 
   onSubmit() {
     this.submitted = true;
 
-    if (this.editGarageForm.invalid) {
-      return;
-    }
-
     alert(JSON.stringify(this.editGarageForm.value));
     console.log(JSON.stringify(this.editGarageForm.value));
 
-    // this.garageService
-    //   .update(this.editGarageForm.value, this.garageId)
-    //   .pipe(first())
-    //   .subscribe(
-    //     (data) => {
-    //       this._snackBar.open(`✓ Garage Edited`, '', {
-    //         duration: 1500,
-    //         horizontalPosition: 'right',
-    //         verticalPosition: 'bottom'
-    //       });
-    //     },
-    //     (error) => {
-    //       this._snackBar.open(`✗ Error ${error.error.message}`, '', {
-    //         duration: 1500,
-    //         horizontalPosition: 'right',
-    //         verticalPosition: 'bottom'
-    //       });
-    //       this.onReset();
-    //       console.log(error);
-    //     }
-    //   );
+    this.garageService
+      .update(this.editGarageForm.value, this.garageId)
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          this._snackBar.open(`✓ Garage Edited`, '', {
+            duration: 1500,
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom'
+          });
+        },
+        (error) => {
+          this._snackBar.open(`✗ Error ${error.error.message}`, '', {
+            duration: 1500,
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom'
+          });
+          this.onReset();
+          console.log(error);
+        }
+      );
   }
 
   onReset() {

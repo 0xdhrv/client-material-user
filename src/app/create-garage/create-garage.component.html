@@ -38,7 +38,11 @@
         <div class="mt2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Name</mat-label>
-            <input formControlName="name" matInput placeholder="John Doe" />
+            <input
+              formControlName="name"
+              matInput
+              placeholder="John Doe"
+            />
             <mat-error *ngIf="f.name.hasError('required')">
               Required
             </mat-error>
@@ -70,7 +74,11 @@
         <div class="mt2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>State</mat-label>
-            <input formControlName="state" matInput placeholder="John Doe" />
+            <input
+              formControlName="state"
+              matInput
+              placeholder="John Doe"
+            />
             <mat-error *ngIf="f.state.hasError('required')">
               Required
             </mat-error>
@@ -81,7 +89,7 @@
             <mat-label>Phone</mat-label>
             <input
               formControlName="phone"
-              type="tel"
+              type="text"
               matInput
               placeholder="98765 43210"
             />
@@ -90,7 +98,9 @@
             </mat-error>
             <mat-error
               *ngIf="
-                f.phone.hasError('minlength') || f.phone.hasError('maxlength') || f.phone.hasError('pattern')
+                f.phone.hasError('minlength') ||
+                f.phone.hasError('maxlength') ||
+                f.phone.hasError('pattern')
               "
             >
               Invalid Phone Number
@@ -121,7 +131,7 @@
             color="primary"
             formControlName="hasCleaningService"
             name="hasCleaningService"
-            (change)="ucr($event)"
+            (change)="updateCleaningRate($event)"
             >Cleaning Service</mat-checkbox
           >
         </div>
@@ -134,17 +144,21 @@
               matInput
               placeholder="100"
             />
-            <mat-error *ngIf="f.cleaningRate && f.cleaningRate.hasError('required')">
-                Required
+            <mat-error
+              *ngIf="f.cleaningRate && f.cleaningRate.hasError('required')"
+            >
+              Required
             </mat-error>
-            <mat-error *ngIf="f.cleaningRate && f.cleaningRate.hasError('pattern')">
-                Enter a Number
+            <mat-error
+              *ngIf="f.cleaningRate && f.cleaningRate.hasError('pattern')"
+            >
+              Enter a Number
             </mat-error>
           </mat-form-field>
         </div>
       </fieldset>
       <div class="mv2">
-        <button class="w-100" mat-stroked-button color="primary">Create</button>
+        <button class="w-100" mat-stroked-button color="primary" [disabled]="!createGarageForm.valid">Create</button>
       </div>
     </form>
   </main>
