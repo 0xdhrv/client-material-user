@@ -54,6 +54,11 @@ export class UserService {
         map((user) => {
           localStorage.setItem('user', JSON.stringify(user));
           this.userSubject.next(user);
+          const now = new Date();
+          const expiryTime = {
+            time: now.getTime() + 18000000
+          };
+          localStorage.setItem('expiry', JSON.stringify(expiryTime));
           return user;
         })
       );
