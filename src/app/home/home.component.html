@@ -45,7 +45,21 @@
   <!-- <h1>
         {{isGuest}}
     </h1> -->
-  <div *ngIf="user && user.role === 'User'">User Stuff</div>
+  <div *ngIf="user && user.role === 'User'">
+    <div class="cover bg-left bg-center-l black">
+      <div class="pv3 pv4-m pv5-l">
+        <div class="tc pv3 pv4-m pv5-l ph3">
+          <h1>{{ user && user.name }}</h1>
+        </div>
+        <a
+            *ngIf="user && user.role == 'User'"
+            routerLink="/book-parking"
+            class="f6 no-underline dim dib v-mid bg-blue white ba b--blue br2 ph3 pv2 mb3"
+            >Book Parking</a
+          >
+      </div>
+    </div>
+  </div>
   <div *ngIf="user && user.role === 'AllocationManager'">
     <div class="cover bg-left bg-center-l black">
       <div class="pv3 pv4-m pv5-l">

@@ -11,6 +11,8 @@ import { CreateGarageComponent } from './create-garage/create-garage.component';
 import { EditGarageComponent } from './edit-garage/edit-garage.component';
 import { CreateSpaceComponent } from './create-space/create-space.component';
 import { EditSpaceComponent } from './edit-space/edit-space.component';
+import { BookParkingComponent } from './book-parking/book-parking.component';
+import { AuthGuard } from './_helpers/auth.guard';
 
 const routes: Routes = [
   // {
@@ -56,38 +58,58 @@ const routes: Routes = [
   {
     path: 'edit-user',
     component: EditUserComponent,
+    canActivate: [AuthGuard],
     data: {
+      roles: ['Admin', 'User', 'ParkingManager', 'AllocationManager'],
       title: 'Edit User'
     }
   },
   {
     path: 'create-garage',
+    canActivate: [AuthGuard],
     component: CreateGarageComponent,
     data: {
+      roles: ['ParkingManager'],
       title: 'Create Garage'
     }
   },
   {
     path: 'edit-garage',
+    canActivate: [AuthGuard],
     component: EditGarageComponent,
     data: {
+      roles: ['ParkingManager'],
       title: 'Edit Garage'
     }
   },
   {
     path: 'create-space',
+    canActivate: [AuthGuard],
     component: CreateSpaceComponent,
     data: {
+      roles: ['AllocationManager'],
       title: 'Create Space'
     }
   },
   {
     path: 'edit-space/:id',
+    canActivate: [AuthGuard],
     component: EditSpaceComponent,
     data: {
+      roles: ['AllocationManager'],
       title: 'Edit Space'
     }
-  }
+  },
+  {
+    path: 'book-parking',
+    canActivate: [AuthGuard],
+    component: BookParkingComponent,
+    data: {
+      roles: ['User'],
+      title: 'Book Parking'
+    }
+  },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

@@ -20,11 +20,15 @@ import { MaterialModule } from './material.module';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { HttpProviderService } from './_services/http-provider.service';
 import { EditUserComponent } from './edit-user/edit-user.component';
+
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
+
 import { CreateGarageComponent } from './create-garage/create-garage.component';
 import { EditGarageComponent } from './edit-garage/edit-garage.component';
 import { CreateSpaceComponent } from './create-space/create-space.component';
 import { EditSpaceComponent } from './edit-space/edit-space.component';
+import { BookParkingComponent } from './book-parking/book-parking.component';
+import { ErrorInterceptor } from './_helpers/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -38,7 +42,8 @@ import { EditSpaceComponent } from './edit-space/edit-space.component';
     CreateGarageComponent,
     EditGarageComponent,
     CreateSpaceComponent,
-    EditSpaceComponent
+    EditSpaceComponent,
+    BookParkingComponent
   ],
   imports: [
     BrowserModule,
@@ -57,6 +62,11 @@ import { EditSpaceComponent } from './edit-space/edit-space.component';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
       multi: true
     }
   ],
