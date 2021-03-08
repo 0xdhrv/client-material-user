@@ -36,8 +36,31 @@ export class HomeComponent implements OnInit {
 
   logout(): void {
     this.userService.logout();
-    // this.router.navigate(['/home']);
+    this.router.navigate(['/home']);
     this.isGuest = true;
+  }
+
+  deleteGarage(): void {
+    this.garageService
+      .delete(this.garage.id)
+      .pipe(first())
+      .subscribe(() => {
+        if (this.user && this.user.role == 'ParkingManager') {
+          this.userService
+            .getParkingManager(this.user.id)
+            .pipe(first())
+            .subscribe((x) => {
+              this.parkingManager = x;
+              this.garageId = this.parkingManager.garageId;
+              this.garageService
+                .getById(this.garageId)
+                .pipe()
+                .subscribe((y) => {
+                  this.garage = y;
+                });
+            });
+        }
+      });
   }
 
   ngOnInit(): void {
@@ -57,7 +80,6 @@ export class HomeComponent implements OnInit {
         .subscribe((x) => {
           this.parkingManager = x;
           this.garageId = this.parkingManager.garageId;
-          console.log(this.garageId);
           this.garageService
             .getById(this.garageId)
             .pipe()

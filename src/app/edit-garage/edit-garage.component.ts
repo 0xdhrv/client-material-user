@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -51,6 +51,10 @@ export class EditGarageComponent implements OnInit {
       hasCleaningService: this.formBuilder.control('', [Validators.required])
     });
 
+    this.editGarageForm.controls['hasCleaningService'].setValue(false);
+    this.editGarageForm.addControl('cleaningRate', new FormControl());
+    this.editGarageForm.controls['cleaningRate'].setValue('0');
+
     this.userService.user.subscribe((user) => {
       this.user = user;
     });
@@ -68,6 +72,10 @@ export class EditGarageComponent implements OnInit {
             .pipe()
             .subscribe((y) => {
               console.log(y);
+              this.garage = y;
+              this.hasCleaningServiceFlag = this.garage.hasCleaningService;
+              this.initialCleaningRate(this.garage.hasCleaningService);
+              console.log(this.garage.hasCleaningService);
               this.editGarageForm.patchValue(y);
             });
         });
@@ -86,6 +94,18 @@ export class EditGarageComponent implements OnInit {
 
   get f() {
     return this.editGarageForm.controls;
+  }
+
+  initialCleaningRate(fg: boolean) {
+    if (fg) {
+      this.editGarageForm.controls['cleaningRate'].reset();
+      this.editGarageForm.controls['cleaningRate'].setValidators([
+        Validators.required
+      ]);
+    } else {
+      this.editGarageForm.controls['cleaningRate'].setValue('0');
+      this.editGarageForm.controls['cleaningRate'].clearValidators();
+    }
   }
 
   updateCleaningRate(event: any) {

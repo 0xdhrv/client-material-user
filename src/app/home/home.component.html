@@ -72,6 +72,12 @@
             class="f6 no-underline dim dib v-mid bg-blue white ba b--blue br2 ph3 pv2 mb3"
             >Edit Garage</a
           >
+          <a
+            *ngIf="parkingManager && parkingManager.garageId > 0"
+            (click)="deleteGarage()"
+            class="f6 no-underline dim dib v-mid bg-blue white ba b--blue br2 ph3 pv2 mb3"
+            >Delete Garage</a
+          >
         </div>
       </div>
     </div>

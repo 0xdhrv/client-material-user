@@ -2,8 +2,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from '../_models/user';
-import { ParkingManager } from '../_models/parkingManager';
+import { User, ParkingManager, AllocationManager } from '../_models';
+// import { User } from '../_models/user';
+// import { ParkingManager } from '../_models/parkingManager';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
@@ -15,6 +16,8 @@ export class UserService {
   public user: Observable<User>;
   private parkingManagerSubject: BehaviorSubject<any>;
   public parkingManager: Observable<ParkingManager>;
+  private allocationManagerSubject: BehaviorSubject<any>;
+  public allocationManager: Observable<AllocationManager>;
 
   constructor(private router: Router, private http: HttpProviderService) {
     this.userSubject = new BehaviorSubject<any>(
@@ -71,5 +74,9 @@ export class UserService {
 
   getParkingManager(id: string) {
     return this.http.Get(`${environment.apiUrl}/users/parkingmanagers`, id);
+  }
+
+  getAllocationManager(id: string) {
+    return this.http.Get(`${environment.apiUrl}/users/allocationmanagers`, id);
   }
 }
