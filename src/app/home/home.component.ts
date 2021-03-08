@@ -1,11 +1,15 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 // import { HttpProviderService } from '../_services/http-provider.service';
+import { Space } from '../_models';
 import { HttpClient } from '@angular/common/http';
 import { GarageService } from '../_services/garage.service';
 import { UserService } from '../_services/user.service';
+import { SpaceService } from '../_services/space.service';
 
 @Component({
   selector: 'app-home',
@@ -17,13 +21,25 @@ export class HomeComponent implements OnInit {
   parkingManager: any;
   garageId: any;
   garage: any;
+  allocationManager: any;
+  spaceId: any;
+  space: any;
+  spaces: any[];
+  otherSpaces: any[];
   isGuest = true;
+  displayedColumns: string[] = [
+    'code',
+    'totalCapacity',
+    'occupiedCapacity',
+    'action'
+  ];
 
   constructor(
     private http: HttpClient,
     private userService: UserService,
-    private router: Router,
-    private garageService: GarageService
+    private garageService: GarageService,
+    private spaceService: SpaceService,
+    private router: Router
   ) {
     this.isGuest = true;
   }
@@ -63,6 +79,30 @@ export class HomeComponent implements OnInit {
       });
   }
 
+  deleteSpace(id: string): void {
+    console.log(id);
+    this.spaceService
+      .delete(id)
+      .pipe(first())
+      .subscribe(() => {
+        if (this.user && this.user.role == 'AllocationManager') {
+          this.userService
+            .getAllocationManager(this.user.id)
+            .pipe(first())
+            .subscribe((x) => {
+              this.allocationManager = x;
+              this.spaceService.getAll().subscribe((data) => {
+                this.otherSpaces = data;
+                this.otherSpaces = this.otherSpaces.filter((x) => {
+                  return x.allocationManagerId === this.allocationManager.id;
+                });
+                const spaces: Space[] = this.otherSpaces;
+              });
+            });
+        }
+      });
+  }
+
   ngOnInit(): void {
     this.isGuest = true;
     this.userService.user.subscribe((user) => {
@@ -87,13 +127,22 @@ export class HomeComponent implements OnInit {
               this.garage = y;
             });
         });
+    }
 
-      // mergeMap((parkingManager) =>
-      //   this.http.get(
-      //     `http://localhost:4000/garages/${parkingManager.garageId}`
-      //   )
-      // );
-      // .subscribe();
+    if (this.user && this.user.role == 'AllocationManager') {
+      this.userService
+        .getAllocationManager(this.user.id)
+        .pipe(first())
+        .subscribe((x) => {
+          this.allocationManager = x;
+          this.spaceService.getAll().subscribe((data) => {
+            this.otherSpaces = data;
+            this.otherSpaces = this.otherSpaces.filter((x) => {
+              return x.allocationManagerId === this.allocationManager.id;
+            });
+            const spaces: Space[] = this.otherSpaces;
+          });
+        });
     }
 
     // if (this.user && this.user.role == 'ParkingManager') {

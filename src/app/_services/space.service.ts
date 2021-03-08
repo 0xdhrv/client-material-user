@@ -19,6 +19,10 @@ export class SpaceService {
     this.space = this.spaceSubject.asObservable();
   }
 
+  getAll() {
+    return this.http.GetAll(`${environment.apiUrl}/spaces`);
+  }
+
   getById(id: string) {
     return this.http.Get(`${environment.apiUrl}/spaces`, id);
   }

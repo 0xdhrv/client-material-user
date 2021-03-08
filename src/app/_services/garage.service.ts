@@ -19,6 +19,10 @@ export class GarageService {
     this.garage = this.garageSubject.asObservable();
   }
 
+  getAll() {
+    return this.http.GetAll(`${environment.apiUrl}/garages`);
+  }
+
   getById(id: string) {
     return this.http.Get(`${environment.apiUrl}/garages`, id);
   }

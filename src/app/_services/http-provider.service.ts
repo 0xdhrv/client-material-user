@@ -8,6 +8,10 @@ import { HttpClient } from '@angular/common/http';
 export class HttpProviderService {
   constructor(private http: HttpClient) {}
 
+  GetAll<T>(uri: string): Observable<T[]> {
+    return this.http.get<T[]>(`${uri}`);
+  }
+
   Get<T>(uri: string, param?: any): Observable<T> {
     return this.http.get<T>(`${uri}/${param}`);
   }

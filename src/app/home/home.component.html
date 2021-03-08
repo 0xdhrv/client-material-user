@@ -47,14 +47,61 @@
     </h1> -->
   <div *ngIf="user && user.role === 'User'">User Stuff</div>
   <div *ngIf="user && user.role === 'AllocationManager'">
-    AllocationManager Stuff
+    <div class="cover bg-left bg-center-l black">
+      <div class="pv3 pv4-m pv5-l">
+        <div class="tc-l pv3 pv4-m pv5-l ph3">
+          <h1>{{ allocationManager && allocationManager.name }}</h1>
+          <a
+            *ngIf="allocationManager"
+            routerLink="/create-space"
+            class="f6 no-underline dim dib v-mid bg-blue white ba b--blue br2 ph3 pv2 mb3"
+            >Create Space</a
+          >
+
+          <h2>
+            Total Spaces: {{ allocationManager && allocationManager.space }}
+          </h2>
+          <div>
+            <table class="tc-l pv3 pv4-m pv5-l ph3" mat-table [dataSource]="otherSpaces">
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              <ng-container matColumnDef="code">
+                <th mat-header-cell *matHeaderCellDef>Code</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element && element.code }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="occupiedCapacity">
+                <th mat-header-cell *matHeaderCellDef>Occupied Capacity</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element && element.occupiedCapacity }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="totalCapacity">
+                <th mat-header-cell *matHeaderCellDef>Total Capacity</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element && element.totalCapacity }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let element" class="action-link">
+                  <button mat-button routerLink="edit-space/{{element.id}}"> Edit  </button>
+                  <button mat-button (click)="deleteSpace(element.id)"> Delete  </button>
+                </td>
+              </ng-container>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div *ngIf="user && user.role === 'ParkingManager'">
     <div class="cover bg-left bg-center-l">
-      <div class="bg-black-50 pv3 pv4-m pv5-l">
+      <div class="pv3 pv4-m pv5-l">
         <div class="tc-l pv3 pv4-m pv5-l ph3">
-          <h1>{{parkingManager && parkingManager.garageId}}</h1>
-          <h1>{{garage && garage.name}}</h1>
+          <h1>{{ parkingManager && parkingManager.garageId }}</h1>
+          <h1>{{ garage && garage.name }}</h1>
           <a
             *ngIf="parkingManager && parkingManager.garageId < 1"
             routerLink="/create-garage"
@@ -64,8 +111,9 @@
           <h4
             *ngIf="parkingManager && parkingManager.garageId > 0"
             class="f6 no-underline dim dib v-mid black ph3 pv2 mb3"
-            >{{garage && garage.name}}</h4
           >
+            {{ garage && garage.name }}
+          </h4>
           <a
             *ngIf="parkingManager && parkingManager.garageId > 0"
             routerLink="/edit-garage"

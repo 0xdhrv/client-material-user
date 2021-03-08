@@ -9,15 +9,17 @@ import { RegisterComponent } from './register/register.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { CreateGarageComponent } from './create-garage/create-garage.component';
 import { EditGarageComponent } from './edit-garage/edit-garage.component';
+import { CreateSpaceComponent } from './create-space/create-space.component';
+import { EditSpaceComponent } from './edit-space/edit-space.component';
 
 const routes: Routes = [
+  // {
+  //   path: '',
+  //   redirectTo: '/home',
+  //   pathMatch: 'full'
+  // },
   {
     path: '',
-    redirectTo: '/home',
-    pathMatch: 'full'
-  },
-  {
-    path: 'home',
     component: HomeComponent,
     data: {
       title: 'Home'
@@ -70,6 +72,20 @@ const routes: Routes = [
     component: EditGarageComponent,
     data: {
       title: 'Edit Garage'
+    }
+  },
+  {
+    path: 'create-space',
+    component: CreateSpaceComponent,
+    data: {
+      title: 'Create Space'
+    }
+  },
+  {
+    path: 'edit-space/:id',
+    component: EditSpaceComponent,
+    data: {
+      title: 'Edit Space'
     }
   }
 ];
