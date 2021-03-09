@@ -13,6 +13,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Router } from '@angular/router';
 import { ParkingService } from '../_services/parking.service';
+import { GarageService } from '../_services/garage.service';
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'app-book-parking',
@@ -22,15 +24,28 @@ import { ParkingService } from '../_services/parking.service';
 export class BookParkingComponent implements OnInit {
   bookParkingForm: FormGroup;
   submitted = false;
+  user: any;
+  garages: any[];
 
   constructor(
     private formBuilder: FormBuilder,
+    private userService: UserService,
+    private garageService: GarageService,
     private parkingService: ParkingService,
     private _snackBar: MatSnackBar,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.userService.user.subscribe((user) => {
+      this.user = user;
+    });
+
+    this.garageService.getAll().subscribe((data) => {
+      this.garages = data;
+      console.log(data);
+    });
+
     this.bookParkingForm = this.formBuilder.group({
       // garageId: this.formBuilder.control('', [Validators.required]),
       // spaceId: this.formBuilder.control('', [Validators.required]),

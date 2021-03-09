@@ -28,6 +28,9 @@
   </header>
 
   <main class="pa4 black-80 spacer">
+    <ul *ngFor="let garage of garages">
+      <li>{{ garage.name }}</li>
+    </ul>
     <form
       class="measure center mt4 pt4"
       [formGroup]="bookParkingForm"
