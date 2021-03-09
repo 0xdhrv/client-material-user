@@ -109,17 +109,20 @@ export class HomeComponent implements OnInit {
     this.userService.user.subscribe((user) => {
       this.user = user;
       console.log(user);
-      this.userInfo = this.userService
-        .getById(this.user.id)
-        .pipe(first())
-        .subscribe((userInfo) => {
-          this.userInfo = userInfo;
-          console.log(this.userInfo);
-        });
-      if (user && user.role) {
-        this.isGuest = false;
+      if (user == null) {
       } else {
-        this.isGuest = true;
+        this.userInfo = this.userService
+          .getById(this.user.id)
+          .pipe(first())
+          .subscribe((userInfo) => {
+            this.userInfo = userInfo;
+            console.log(this.userInfo);
+          });
+        if (user && user.role) {
+          this.isGuest = false;
+        } else {
+          this.isGuest = true;
+        }
       }
     });
     if (this.user && this.user.role == 'ParkingManager') {

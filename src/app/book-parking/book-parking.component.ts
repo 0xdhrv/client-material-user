@@ -8,9 +8,7 @@ import {
   Validators,
   FormControl
 } from '@angular/forms';
-import { first } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ClickOutsideModule } from 'ng-click-outside';
 
 import { Router } from '@angular/router';
 import {
@@ -30,10 +28,13 @@ export class BookParkingComponent implements OnInit {
   submitted = false;
   user: any;
   garages: any[];
-  otherSpaces: any[];
+  spaces: any[];
   selectedGarageId: string;
   selectedGarage = false;
-  garageBlurred = false;
+  selectedSpaceId: string;
+  selectedSpace = false;
+  withCleaningServiceFlag: boolean;
+  hasCleaningService: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -55,31 +56,60 @@ export class BookParkingComponent implements OnInit {
     });
 
     this.bookParkingForm = this.formBuilder.group({
-      // garageId: this.formBuilder.control('', [Validators.required]),
-      // spaceId: this.formBuilder.control('', [Validators.required]),
+      garageId: this.formBuilder.control('', [Validators.required]),
+      spaceId: this.formBuilder.control('', [Validators.required]),
       vehicleNumber: this.formBuilder.control('', [Validators.required]),
       driverName: this.formBuilder.control('', [Validators.required]),
-      withCleaningService: this.formBuilder.control('')
+      withCleaningService: this.formBuilder.control('', [Validators.required])
     });
+
+    this.bookParkingForm.controls['withCleaningService'].setValue(false);
   }
 
   selectGarage(
     id: string,
     garageOccupiedCapacity: string,
-    garageTotalCapacity: string
+    garageTotalCapacity: string,
+    hasCleaningService: boolean
   ) {
-    if (garageOccupiedCapacity != garageTotalCapacity) {
-      console.log(id);
-      this.selectedGarageId = id;
+    if (this.selectedGarageId == id) {
+      this.selectedGarage = !this.selectedGarage;
+      this.bookParkingForm.controls['garageId'].reset();
+      this.bookParkingForm.controls['spaceId'].reset();
+    } else {
       this.selectedGarage = true;
+      this.selectedGarageId = id;
+      if (garageOccupiedCapacity != garageTotalCapacity) {
+        this.selectedGarageId = id;
+        this.spaceService
+          .getByGarageId(this.selectedGarageId)
+          .subscribe((data) => {
+            this.spaces = data;
+          });
+        this.bookParkingForm.controls['garageId'].setValue(
+          this.selectedGarageId
+        );
+        this.hasCleaningService = hasCleaningService;
+      }
     }
-    this.spaceService.getByGarageId(this.selectedGarageId).subscribe((data) => {
-      this.otherSpaces = data;
-    });
   }
 
-  unselectGarage() {
-    this.selectedGarage = false;
+  selectSpace(
+    id: string,
+    spaceOccupiedCapacity: string,
+    spaceTotalCapacity: string
+  ) {
+    if (this.selectedSpaceId == id) {
+      this.selectedSpace = !this.selectedSpace;
+      this.bookParkingForm.controls['spaceId'].reset();
+    } else {
+      this.selectedSpace = true;
+      this.selectedSpaceId = id;
+      if (spaceOccupiedCapacity != spaceTotalCapacity) {
+        this.selectedSpaceId = id;
+        this.bookParkingForm.controls['spaceId'].setValue(this.selectedSpaceId);
+      }
+    }
   }
 
   get f() {

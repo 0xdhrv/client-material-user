@@ -24,7 +24,6 @@ export class SpaceService {
   }
 
   getByGarageId(id: string) {
-    console.log(`${environment.apiUrl}/spaces/bygarage/${id}`);
     return this.http.GetAll(`${environment.apiUrl}/spaces/bygarage/${id}`);
   }
 

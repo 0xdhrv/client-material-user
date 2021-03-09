@@ -28,87 +28,123 @@
   </header>
 
   <main class="pa4 black-80 spacer">
-    <article class="pa3 pa5-ns">
-      <h1>{{ selectedGarage }}  {{ selectedGarageId }}</h1>
-      <div class="pa4">
-        <div class="overflow-auto">
-          <table class="f6 w-100 center" cellspacing="0">
-            <thead>
-              <tr>
-                <th class="fw6 bb b--black-20 tl pa3 pr3 bg-white">Garage</th>
-                <th class="fw6 bb b--black-20 tl pa3 pr3 bg-white">Address</th>
-                <th class="fw6 bb b--black-20 tl pa3 pr3 bg-white">City</th>
-                <th class="fw6 bb b--black-20 tl pa3 pr3 bg-white">
-                  Occupied / Total
-                </th>
-                <th class="fw6 bb b--black-20 tl pa3 pr3 bg-white">
-                  Service(s)
-                </th>
-              </tr>
-            </thead>
-            <tbody class="b lh-copy" *ngFor="let garage of garages">
-              <tr
-                class="pointer"
-                (click)="
-                  selectGarage(
-                    garage.id,
-                    garage.occupiedCapacity,
-                    garage.totalCapacity
-                  )
-                "
-                (clickOutside)="unselectGarage()"
-                [ngClass]="{
-                  'bg-lightest-blue': garage && garage.id == selectedGarageId && selectGarage 
-                }"
-                [ngClass]="{
-                  'bg-washed-red':
-                    garage && garage.totalCapacity == garage.occupiedCapacity
-                }"
-              >
-                <td class="pa3 pr3 bb b--black-20">
-                  {{ garage && garage.name }}
-                </td>
-                <td class="pa3 pr3 bb b--black-20">
-                  {{ garage && garage.address }}
-                </td>
-                <td class="pa3 pr3 bb b--black-20">
-                  {{ garage && garage.city }}
-                </td>
-                <td class="pa3 pr3 bb b--black-20">
-                  {{ garage && garage.occupiedCapacity }} /
-                  {{ garage && garage.totalCapacity }}
-                </td>
-                <td class="pa3 pr3 bb b--black-20">
-                  <mat-icon
-                    class="ph2"
-                    aria-hidden="false"
-                    aria-label="Parking"
-                    matTooltip="Parking"
-                    >local_parking</mat-icon
-                  >
-                  <mat-icon
-                    class="ph2"
-                    matTooltip="Cleaning"
-                    *ngIf="garage && garage.hasCleaningService"
-                    aria-hidden="false"
-                    aria-label="Cleaning"
-                    >local_car_wash</mat-icon
-                  >
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <h1> {{otherSpaces && otherSpaces[0].code}} </h1>
-        </div>
+    <div class="measure center mt4 pt4">
+      <!-- <div class="f4 fw6 ph0 mh0 pb5">Book Parking</div> -->
+      <div class="f4 fw6 ph0 mh0 pb5">{{ hasCleaningService }}</div>
+      <div class="overflow-auto">
+        <table class="f6 w-100 center ba" cellspacing="0">
+          <caption>Select Garage</caption>
+          <thead>
+            <tr>
+              <th class="fw6 bb b--black tl pa3 pr3 bg-white">Garage</th>
+              <th class="fw6 bb b--black tl pa3 pr3 bg-white">Address</th>
+              <th class="fw6 bb b--black tl pa3 pr3 bg-white">
+                Occupied / Total
+              </th>
+              <th class="fw6 bb b--black tl pa3 pr3 bg-white">Service(s)</th>
+            </tr>
+          </thead>
+          <tbody class="b lh-copy" *ngFor="let garage of garages">
+            <tr
+              class="pointer"
+              (click)="
+                selectGarage(
+                  garage.id,
+                  garage.occupiedCapacity,
+                  garage.totalCapacity,
+                  garage.hasCleaningService
+                )
+              "
+              [ngClass]="{
+                'bg-lightest-blue':
+                  garage && garage.id == selectedGarageId && selectedGarage
+              }"
+              [ngClass]="{
+                'bg-washed-red':
+                  garage && garage.totalCapacity == garage.occupiedCapacity
+              }"
+            >
+              <td class="pa3 pr3 bb b--black-20">
+                {{ garage && garage.name }}
+              </td>
+              <td class="pa3 pr3 bb b--black-20">
+                {{ garage && garage.address }}
+              </td>
+              <td class="pa3 pr3 bb b--black-20">
+                {{ garage && garage.occupiedCapacity }} /
+                {{ garage && garage.totalCapacity }}
+              </td>
+              <td class="pa3 pr3 bb b--black-20">
+                <mat-icon
+                  class="ph2"
+                  aria-hidden="false"
+                  aria-label="Parking"
+                  matTooltip="Parking"
+                  >local_parking</mat-icon
+                >
+                <mat-icon
+                  class="ph2"
+                  matTooltip="Cleaning"
+                  *ngIf="garage && garage.hasCleaningService"
+                  aria-hidden="false"
+                  aria-label="Cleaning"
+                  >local_car_wash</mat-icon
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </article>
+    </div>
+    <div class="measure center mt4 pt4">
+      <div class="overflow-auto">
+        <table *ngIf="selectedGarage" class="f6 w-100 center ba" cellspacing="0">
+          <caption>Select Space</caption>
+          <thead>
+            <tr>
+              <th class="fw6 bb b--black tl pa3 pr3 bg-white">Space</th>
+              <th class="fw6 bb b--black tl pa3 pr3 bg-white">
+                Occupied / Total
+              </th>
+            </tr>
+          </thead>
+          <tbody class="b lh-copy" *ngFor="let space of spaces">
+            <tr
+              class="pointer"
+              (click)="
+                selectSpace(
+                  space.id,
+                  space.occupiedCapacity,
+                  space.totalCapacity
+                )
+              "
+              [ngClass]="{
+                'bg-lightest-blue':
+                  space && space.id == selectedSpaceId && selectedSpace
+              }"
+              [ngClass]="{
+                'bg-washed-red':
+                  space && space.totalCapacity == space.occupiedCapacity
+              }"
+            >
+              <td class="pa3 pr3 bb b--black-20">
+                {{ space && space.code }}
+              </td>
+              <td class="pa3 pr3 bb b--black-20">
+                {{ space && space.occupiedCapacity }} /
+                {{ space && space.totalCapacity }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
     <form
       class="measure center mt4 pt4"
       [formGroup]="bookParkingForm"
       (ngSubmit)="onSubmit()"
     >
       <fieldset id="create_garage" class="ba b--transparent black ph0 mh0">
-        <legend class="f4 fw6 ph0 mh0">Book Parking</legend>
         <div class="mt2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Vehicle Number</mat-label>
@@ -139,6 +175,7 @@
 
         <div class="mv4">
           <mat-checkbox
+            [disabled]="!hasCleaningService"
             labelPosition="after"
             color="primary"
             formControlName="withCleaningService"
