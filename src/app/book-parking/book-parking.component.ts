@@ -10,11 +10,15 @@ import {
 } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ClickOutsideModule } from 'ng-click-outside';
 
 import { Router } from '@angular/router';
-import { ParkingService } from '../_services/parking.service';
-import { GarageService } from '../_services/garage.service';
-import { UserService } from '../_services/user.service';
+import {
+  UserService,
+  GarageService,
+  SpaceService,
+  ParkingService
+} from '../_services';
 
 @Component({
   selector: 'app-book-parking',
@@ -26,11 +30,16 @@ export class BookParkingComponent implements OnInit {
   submitted = false;
   user: any;
   garages: any[];
+  otherSpaces: any[];
+  selectedGarageId: string;
+  selectedGarage = false;
+  garageBlurred = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
     private garageService: GarageService,
+    private spaceService: SpaceService,
     private parkingService: ParkingService,
     private _snackBar: MatSnackBar,
     private router: Router
@@ -43,7 +52,6 @@ export class BookParkingComponent implements OnInit {
 
     this.garageService.getAll().subscribe((data) => {
       this.garages = data;
-      console.log(data);
     });
 
     this.bookParkingForm = this.formBuilder.group({
@@ -53,6 +61,25 @@ export class BookParkingComponent implements OnInit {
       driverName: this.formBuilder.control('', [Validators.required]),
       withCleaningService: this.formBuilder.control('')
     });
+  }
+
+  selectGarage(
+    id: string,
+    garageOccupiedCapacity: string,
+    garageTotalCapacity: string
+  ) {
+    if (garageOccupiedCapacity != garageTotalCapacity) {
+      console.log(id);
+      this.selectedGarageId = id;
+      this.selectedGarage = true;
+    }
+    this.spaceService.getByGarageId(this.selectedGarageId).subscribe((data) => {
+      this.otherSpaces = data;
+    });
+  }
+
+  unselectGarage() {
+    this.selectedGarage = false;
   }
 
   get f() {

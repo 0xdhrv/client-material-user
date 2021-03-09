@@ -63,13 +63,17 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/home']);
         },
         (error) => {
-          this._snackBar.open(`✗ Error ${error.error.message}`, '', {
+          console.log(error);
+          this._snackBar.open(`✗ Error ${error}`, '', {
             duration: 1500,
             horizontalPosition: 'right',
             verticalPosition: 'top'
           });
           this.onReset();
           console.log(error);
+        },
+        () => {
+          console.log('Here it goes');
         }
       );
   }

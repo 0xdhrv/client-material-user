@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { first } from 'rxjs/operators';
+import { first, tap } from 'rxjs/operators';
 // import { HttpProviderService } from '../_services/http-provider.service';
 import { Space } from '../_models';
 import { HttpClient } from '@angular/common/http';
@@ -18,6 +18,7 @@ import { SpaceService } from '../_services/space.service';
 })
 export class HomeComponent implements OnInit {
   user: any;
+  userInfo: any;
   parkingManager: any;
   garageId: any;
   garage: any;
@@ -107,6 +108,14 @@ export class HomeComponent implements OnInit {
     this.isGuest = true;
     this.userService.user.subscribe((user) => {
       this.user = user;
+      console.log(user);
+      this.userInfo = this.userService
+        .getById(this.user.id)
+        .pipe(first())
+        .subscribe((userInfo) => {
+          this.userInfo = userInfo;
+          console.log(this.userInfo);
+        });
       if (user && user.role) {
         this.isGuest = false;
       } else {
@@ -144,22 +153,5 @@ export class HomeComponent implements OnInit {
           });
         });
     }
-
-    // if (this.user && this.user.role == 'ParkingManager') {
-    //   this.userService.getParkingManager(this.user.id).subscribe((data) => {
-    //     this.parkingManager = data;
-    //     this.garageId = this.parkingManager.garageId;
-    //     console.log(this.parkingManager);
-    //     console.log(this.garageId);
-    //   });
-    //   console.log(this.parkingManager);
-    //   console.log(this.garageId);
-    //   this.garageService
-    //     .getById(this.parkingManager.garageId)
-    //     .subscribe((data) => {
-    //       this.garage = data;
-    //       // console.log(this.garage);
-    //     });
-    // }
   }
 }

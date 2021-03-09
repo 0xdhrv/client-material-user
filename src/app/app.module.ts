@@ -13,7 +13,14 @@ import { SignupComponent } from './signup/signup.component';
 import { RegisterComponent } from './register/register.component';
 
 // Services
-import { UserService } from './_services/user.service';
+import {
+  UserService,
+  GarageService,
+  SpaceService,
+  LocalService,
+  StorageService,
+  ParkingService
+} from './_services/';
 
 // Material Module
 import { MaterialModule } from './material.module';
@@ -29,6 +36,7 @@ import { CreateSpaceComponent } from './create-space/create-space.component';
 import { EditSpaceComponent } from './edit-space/edit-space.component';
 import { BookParkingComponent } from './book-parking/book-parking.component';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
+import { ClickOutsideModule } from 'ng-click-outside';
 
 @NgModule({
   declarations: [
@@ -53,12 +61,18 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
     BrowserAnimationsModule,
     MaterialModule,
     LoadingBarRouterModule,
-    HttpClientModule
+    HttpClientModule,
+    ClickOutsideModule
   ],
   providers: [
     Title,
     UserService,
     HttpProviderService,
+    LocalService,
+    StorageService,
+    GarageService,
+    SpaceService,
+    ParkingService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

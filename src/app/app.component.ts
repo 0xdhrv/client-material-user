@@ -54,6 +54,7 @@ export class AppComponent {
   }
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: any) {
+    console.log('User would be logged out');
     this.userService.logout();
   }
 }

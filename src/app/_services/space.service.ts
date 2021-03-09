@@ -23,6 +23,11 @@ export class SpaceService {
     return this.http.GetAll(`${environment.apiUrl}/spaces`);
   }
 
+  getByGarageId(id: string) {
+    console.log(`${environment.apiUrl}/spaces/bygarage/${id}`);
+    return this.http.GetAll(`${environment.apiUrl}/spaces/bygarage/${id}`);
+  }
+
   getById(id: string) {
     return this.http.Get(`${environment.apiUrl}/spaces`, id);
   }

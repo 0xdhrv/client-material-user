@@ -12,6 +12,10 @@ export class HttpProviderService {
     return this.http.get<T[]>(`${uri}`);
   }
 
+  GetAllById<T>(uri: string, param?: any): Observable<T[]> {
+    return this.http.get<T[]>(`${uri}/${param}`);
+  }
+
   Get<T>(uri: string, param?: any): Observable<T> {
     return this.http.get<T>(`${uri}/${param}`);
   }

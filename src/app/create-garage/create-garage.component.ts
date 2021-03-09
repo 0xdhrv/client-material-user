@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
@@ -28,7 +29,8 @@ export class CreateGarageComponent implements OnInit {
     private formBuilder: FormBuilder,
     private garageService: GarageService,
     private _snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -113,5 +115,9 @@ export class CreateGarageComponent implements OnInit {
   onReset() {
     this.submitted = false;
     this.createGarageForm.reset();
+  }
+
+  ngAfterViewChecked() {
+    this.cdRef.detectChanges();
   }
 }

@@ -3,12 +3,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User, ParkingManager, AllocationManager } from '../_models';
-// import { User } from '../_models/user';
-// import { ParkingManager } from '../_models/parkingManager';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { HttpProviderService } from '../_services/http-provider.service';
+import { LocalService } from './local.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -19,9 +18,14 @@ export class UserService {
   private allocationManagerSubject: BehaviorSubject<any>;
   public allocationManager: Observable<AllocationManager>;
 
-  constructor(private router: Router, private http: HttpProviderService) {
+  constructor(
+    private router: Router,
+    private http: HttpProviderService,
+    private localService: LocalService
+  ) {
     this.userSubject = new BehaviorSubject<any>(
-      JSON.parse(localStorage.getItem('user') || '{}')
+      // JSON.parse(localStorage.getItem('user') || '{}')
+      JSON.parse(this.localService.getJsonValue('user'))
     );
     this.user = this.userSubject.asObservable();
     // this.parkingManagerSubject = new BehaviorSubject<any>(JSON.parse('{}'));
@@ -52,7 +56,7 @@ export class UserService {
       })
       .pipe(
         map((user) => {
-          localStorage.setItem('user', JSON.stringify(user));
+          this.localService.setJsonValue('user', JSON.stringify(user));
           this.userSubject.next(user);
           return user;
         })
