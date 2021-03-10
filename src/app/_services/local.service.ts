@@ -14,7 +14,7 @@ export class LocalService {
   getJsonValue(key: string) {
     return this.storageService.secureStorage.getItem(key);
   }
-  clearToken() {
+  clear() {
     return this.storageService.secureStorage.clear();
   }
 }
