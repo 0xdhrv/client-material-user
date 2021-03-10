@@ -11,6 +11,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Router } from '@angular/router';
+import { first } from 'rxjs/operators';
 import {
   UserService,
   GarageService,
@@ -64,6 +65,7 @@ export class BookParkingComponent implements OnInit {
     });
 
     this.bookParkingForm.controls['withCleaningService'].setValue(false);
+    this.withCleaningServiceFlag = false;
   }
 
   selectGarage(
@@ -76,10 +78,14 @@ export class BookParkingComponent implements OnInit {
       this.selectedGarage = !this.selectedGarage;
       this.bookParkingForm.controls['garageId'].reset();
       this.bookParkingForm.controls['spaceId'].reset();
+      this.selectedGarageId = '';
+      this.selectedSpaceId = '';
     } else {
       this.selectedGarage = true;
-      this.selectedGarageId = id;
-      if (garageOccupiedCapacity != garageTotalCapacity) {
+      // this.selectedGarageId = id;
+      this.bookParkingForm.controls['spaceId'].reset();
+      this.selectedSpaceId = '';
+      if (garageOccupiedCapacity < garageTotalCapacity) {
         this.selectedGarageId = id;
         this.spaceService
           .getByGarageId(this.selectedGarageId)
@@ -90,6 +96,14 @@ export class BookParkingComponent implements OnInit {
           this.selectedGarageId
         );
         this.hasCleaningService = hasCleaningService;
+        if (!hasCleaningService) {
+          this.bookParkingForm.controls[
+            'withCleaningService'
+          ].clearValidators();
+          this.bookParkingForm.controls['withCleaningService'].setValue(false);
+        }
+      } else {
+        this.selectedGarage = false;
       }
     }
   }
@@ -102,10 +116,11 @@ export class BookParkingComponent implements OnInit {
     if (this.selectedSpaceId == id) {
       this.selectedSpace = !this.selectedSpace;
       this.bookParkingForm.controls['spaceId'].reset();
+      this.selectedSpaceId = '';
     } else {
       this.selectedSpace = true;
-      this.selectedSpaceId = id;
-      if (spaceOccupiedCapacity != spaceTotalCapacity) {
+      // this.selectedSpaceId = id;
+      if (spaceOccupiedCapacity < spaceTotalCapacity) {
         this.selectedSpaceId = id;
         this.bookParkingForm.controls['spaceId'].setValue(this.selectedSpaceId);
       }
@@ -121,5 +136,32 @@ export class BookParkingComponent implements OnInit {
 
     alert(JSON.stringify(this.bookParkingForm.value));
     console.log(JSON.stringify(this.bookParkingForm.value));
+
+    this.parkingService
+      .book(this.bookParkingForm.value)
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          this._snackBar.open(`✓ Parking Booked`, '', {
+            duration: 1500,
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom'
+          });
+        },
+        (error) => {
+          this._snackBar.open(`✗ Error ${error}`, '', {
+            duration: 1500,
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom'
+          });
+          // this.onReset();
+          console.log(error);
+        }
+      );
+  }
+
+  onReset() {
+    this.submitted = false;
+    this.bookParkingForm.reset();
   }
 }

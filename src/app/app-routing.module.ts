@@ -13,6 +13,7 @@ import { CreateSpaceComponent } from './create-space/create-space.component';
 import { EditSpaceComponent } from './edit-space/edit-space.component';
 import { BookParkingComponent } from './book-parking/book-parking.component';
 import { AuthGuard } from './_helpers/auth.guard';
+import { ReceiptComponent } from './receipt/receipt.component';
 
 const routes: Routes = [
   // {
@@ -107,6 +108,15 @@ const routes: Routes = [
     data: {
       roles: ['User'],
       title: 'Book Parking'
+    }
+  },
+  {
+    path: 'receipt',
+    canActivate: [AuthGuard],
+    component: ReceiptComponent,
+    data: {
+      roles: ['User'],
+      title: 'Parking Receipt'
     }
   },
   { path: '**', redirectTo: '' }

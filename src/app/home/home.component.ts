@@ -2,14 +2,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { first, tap } from 'rxjs/operators';
 // import { HttpProviderService } from '../_services/http-provider.service';
 import { Space } from '../_models';
 import { HttpClient } from '@angular/common/http';
-import { GarageService } from '../_services/garage.service';
-import { UserService } from '../_services/user.service';
-import { SpaceService } from '../_services/space.service';
+import {
+  UserService,
+  GarageService,
+  SpaceService,
+  ParkingService
+} from '../_services';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +31,8 @@ export class HomeComponent implements OnInit {
   spaces: any[];
   otherSpaces: any[];
   isGuest = true;
+  canPark: boolean;
+  parking: any;
   displayedColumns: string[] = [
     'code',
     'totalCapacity',
@@ -40,6 +45,7 @@ export class HomeComponent implements OnInit {
     private userService: UserService,
     private garageService: GarageService,
     private spaceService: SpaceService,
+    private parkingService: ParkingService,
     private router: Router
   ) {
     this.isGuest = true;
@@ -104,6 +110,47 @@ export class HomeComponent implements OnInit {
       });
   }
 
+  checkIn() {
+    this.userService.user.subscribe((user) => {
+      this.user = user;
+      if (user == null) {
+      } else {
+        this.parkingService.checkin().subscribe(() => {
+          this.parkingService
+            .getByUser(this.user.id)
+            .pipe(first())
+            .subscribe((x) => {
+              this.parking = x;
+            });
+        });
+      }
+    });
+  }
+
+  checkOut() {
+    this.userService.user.subscribe((user) => {
+      this.user = user;
+      if (user == null) {
+      } else {
+        this.parkingService.checkout().subscribe(() => {
+          this.parkingService
+            .getByUser(this.user.id)
+            .pipe(first())
+            .subscribe((x) => {
+              this.parking = x;
+              if (x == false) {
+                this.canPark = true;
+                console.log('CheckOut user can park');
+              } else {
+                this.parking = x;
+                console.log('CheckOut user cannot park');
+              }
+            });
+        });
+      }
+    });
+  }
+
   ngOnInit(): void {
     this.isGuest = true;
     this.userService.user.subscribe((user) => {
@@ -154,6 +201,29 @@ export class HomeComponent implements OnInit {
             });
             const spaces: Space[] = this.otherSpaces;
           });
+        });
+    }
+
+    if (this.user && this.user.role == 'User') {
+      this.parkingService
+        .getByUser(this.user.id)
+        .pipe(first())
+        .subscribe((x) => {
+          if (x == false) {
+            this.canPark = true;
+            console.log(
+              '🚀 ~ file: home.component.ts ~ line 173 ~ HomeComponent ~ .subscribe ~ this.canPark',
+              this.canPark
+            );
+            console.log('user can park');
+          } else {
+            this.parking = x;
+            console.log(
+              '🚀 ~ file: home.component.ts ~ line 176 ~ HomeComponent ~ .subscribe ~ this.parking',
+              this.parking
+            );
+            console.log('user cannot park');
+          }
         });
     }
   }

@@ -20,14 +20,18 @@ export class ParkingService {
   }
 
   book(parking: Parking) {
-    return this.http.Post(`${environment.apiUrl}/parking`, parking);
+    return this.http.Post(`${environment.apiUrl}/parkings/book`, parking);
+  }
+
+  getByUser(id: string) {
+    return this.http.Get(`${environment.apiUrl}/parkings/byuser`, id);
   }
 
   checkin() {
-    return this.http.Post(`${environment.apiUrl}/parking/checkin`);
+    return this.http.Post(`${environment.apiUrl}/parkings/checkin`);
   }
 
   checkout() {
-    return this.http.Post(`${environment.apiUrl}/parking/checkout`);
+    return this.http.Post(`${environment.apiUrl}/parkings/checkout`);
   }
 }

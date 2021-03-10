@@ -4,6 +4,7 @@
     "allocationmanagers",
     "authorised",
     "bygarage",
+    "byuser",
     "checkin",
     "parkingmanagers"
   ]

@@ -30,10 +30,14 @@
   <main class="pa4 black-80 spacer">
     <div class="measure center mt4 pt4">
       <!-- <div class="f4 fw6 ph0 mh0 pb5">Book Parking</div> -->
-      <div class="f4 fw6 ph0 mh0 pb5">{{ hasCleaningService }}</div>
+      <div class="f4 fw6 ph0 mh0 pb5">
+        {{ selectedGarage }} {{ selectedGarageId }} - {{ selectedSpaceId }}
+      </div>
       <div class="overflow-auto">
         <table class="f6 w-100 center ba" cellspacing="0">
-          <caption>Select Garage</caption>
+          <caption>
+            Select Garage
+          </caption>
           <thead>
             <tr>
               <th class="fw6 bb b--black tl pa3 pr3 bg-white">Garage</th>
@@ -98,8 +102,14 @@
     </div>
     <div class="measure center mt4 pt4">
       <div class="overflow-auto">
-        <table *ngIf="selectedGarage" class="f6 w-100 center ba" cellspacing="0">
-          <caption>Select Space</caption>
+        <table
+          *ngIf="selectedGarage"
+          class="f6 w-100 center ba"
+          cellspacing="0"
+        >
+          <caption>
+            Select Space
+          </caption>
           <thead>
             <tr>
               <th class="fw6 bb b--black tl pa3 pr3 bg-white">Space</th>
@@ -176,10 +186,12 @@
         <div class="mv4">
           <mat-checkbox
             [disabled]="!hasCleaningService"
+            matTooltip="Depends on Selected Garage"
             labelPosition="after"
             color="primary"
             formControlName="withCleaningService"
             name="withCleaningService"
+            [(ngModel)]="withCleaningServiceFlag"
             >With Cleaning Service</mat-checkbox
           >
         </div>

@@ -37,6 +37,7 @@ import { EditSpaceComponent } from './edit-space/edit-space.component';
 import { BookParkingComponent } from './book-parking/book-parking.component';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { ClickOutsideModule } from 'ng-click-outside';
+import { ReceiptComponent } from './receipt/receipt.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { ClickOutsideModule } from 'ng-click-outside';
     EditGarageComponent,
     CreateSpaceComponent,
     EditSpaceComponent,
-    BookParkingComponent
+    BookParkingComponent,
+    ReceiptComponent
   ],
   imports: [
     BrowserModule,

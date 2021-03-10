@@ -50,13 +50,32 @@
       <div class="pv3 pv4-m pv5-l">
         <div class="tc pv3 pv4-m pv5-l ph3">
           <h1>{{ userInfo && userInfo.name }}</h1>
+          <h2>{{ canPark }}</h2>
         </div>
         <a
-            *ngIf="user && user.role == 'User'"
-            routerLink="/book-parking"
-            class="f6 no-underline dim dib v-mid bg-blue white ba b--blue br2 ph3 pv2 mb3"
-            >Book Parking</a
-          >
+          *ngIf="user && user.role == 'User' && canPark"
+          routerLink="/book-parking"
+          class="f6 no-underline dim dib v-mid bg-blue white ba b--blue br2 ph3 pv2 mb3"
+          >Book Parking</a
+        >
+        <button
+          mat-stroked-button
+          *ngIf="!canPark && parking"
+          color="primary"
+          (click)="checkIn()"
+          [disabled]="parking.isActive"
+        >
+          CheckIn
+        </button>
+        <button
+          mat-stroked-button
+          *ngIf="!canPark && parking"
+          color="primary"
+          (click)="checkOut()"
+          [disabled]="!parking.isActive"
+        >
+          CheckOut
+        </button>
       </div>
     </div>
   </div>
@@ -76,7 +95,11 @@
             Total Spaces: {{ allocationManager && allocationManager.space }}
           </h2>
           <div *ngIf="allocationManager.space >= 1">
-            <table class="tc-l pv3 pv4-m pv5-l ph3" mat-table [dataSource]="otherSpaces">
+            <table
+              class="tc-l pv3 pv4-m pv5-l ph3"
+              mat-table
+              [dataSource]="otherSpaces"
+            >
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
               <ng-container matColumnDef="code">
@@ -98,10 +121,14 @@
                 </td>
               </ng-container>
               <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <th mat-header-cell *matHeaderCellDef>Action</th>
                 <td mat-cell *matCellDef="let element" class="action-link">
-                  <button mat-button routerLink="edit-space/{{element.id}}"> Edit  </button>
-                  <button mat-button (click)="deleteSpace(element.id)"> Delete  </button>
+                  <button mat-button routerLink="edit-space/{{ element.id }}">
+                    Edit
+                  </button>
+                  <button mat-button (click)="deleteSpace(element.id)">
+                    Delete
+                  </button>
                 </td>
               </ng-container>
             </table>
