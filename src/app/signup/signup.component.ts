@@ -10,21 +10,12 @@ import { MustMatch } from '../_helpers/must-match.validator';
 import { UserService } from '../_services/user.service';
 import { Router } from '@angular/router';
 
-interface Role {
-  value: string;
-  viewValue: string;
-}
-
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-  roles: Role[] = [
-    { value: 'allocationManager', viewValue: 'Allocation Manager' },
-    { value: 'parkingManager', viewValue: 'Parking Manager' }
-  ];
   signupForm: FormGroup;
   submitted = false;
 

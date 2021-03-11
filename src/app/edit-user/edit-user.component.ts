@@ -9,6 +9,7 @@ import { MustMatch } from '../_helpers/must-match.validator';
 
 import { UserService } from '../_services/user.service';
 import { Router } from '@angular/router';
+import { User } from '../_models/user';
 
 @Component({
   selector: 'app-edit-user',
@@ -16,7 +17,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./edit-user.component.css']
 })
 export class EditUserComponent implements OnInit {
-  user: any;
+  user: User;
   editUserForm: FormGroup;
   submitted = false;
 
@@ -87,7 +88,7 @@ export class EditUserComponent implements OnInit {
             horizontalPosition: 'right',
             verticalPosition: 'bottom'
           });
-          // this.router.navigate(['/home']);
+          this.router.navigate(['']);
         },
         (error) => {
           this._snackBar.open(`✗ Error ${error.error.message}`, '', {

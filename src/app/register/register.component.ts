@@ -9,11 +9,7 @@ import { MustMatch } from '../_helpers/must-match.validator';
 
 import { UserService } from '../_services/user.service';
 import { Router } from '@angular/router';
-
-interface Role {
-  value: string;
-  viewValue: string;
-}
+import { RegisterRole } from 'src/app/_models/registerRole';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +17,7 @@ interface Role {
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  roles: Role[] = [
+  roles: RegisterRole[] = [
     { value: 'AllocationManager', viewValue: 'Allocation Manager' },
     { value: 'ParkingManager', viewValue: 'Parking Manager' }
   ];

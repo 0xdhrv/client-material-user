@@ -1,11 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Component, HostListener } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { filter, map } from 'rxjs/operators';
-import { UserService } from './_services/user.service';
+
+// Models
+import { User } from 'src/app/_models/user';
+
+// Services
+import { UserService } from 'src/app/_services/user.service';
+
+// Idle.js
 import { Idle } from 'idlejs/dist';
 
 @Component({
@@ -14,13 +18,19 @@ import { Idle } from 'idlejs/dist';
 })
 export class AppComponent {
   idle: Idle;
-  ngOnInit() {
-    console.log('START');
+  user: User;
+
+  ngOnInit(): void {
+    // Logging Out User if inactive for 30 Minutes
     this.idle = new Idle()
       .whenNotInteractive()
       .within(29)
       .do(() => this.userService.logout())
       .start();
+
+    this.userService.user.subscribe((user) => {
+      this.user = user;
+    });
   }
 
   constructor(
@@ -29,6 +39,7 @@ export class AppComponent {
     private titleService: Title,
     private userService: UserService
   ) {
+    // getting static data of title from routes array
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
@@ -48,13 +59,17 @@ export class AppComponent {
       )
       .subscribe((data: unknown) => {
         if (data) {
+          // setting title from received data
           this.titleService.setTitle(data + ' | MechPark');
         }
       });
   }
+
+  // To Fix : { 1. sessionStorage implementation (n). to find  }
   @HostListener('window:beforeunload', ['$event'])
-  beforeUnloadHandler(event: any) {
+  beforeUnloadHandler(): void {
     console.log('User would be logged out');
+    // Problem : page refresh logs out user
     // this.userService.logout();
   }
 }

@@ -16,6 +16,7 @@ import { UserService } from '../_services/user.service';
 import { SpaceService } from '../_services/space.service';
 import { Router } from '@angular/router';
 import { GarageService } from '../_services/garage.service';
+import { Space } from '../_models/space';
 
 @Component({
   selector: 'app-edit-space',
@@ -23,8 +24,8 @@ import { GarageService } from '../_services/garage.service';
   styleUrls: ['./edit-space.component.css']
 })
 export class EditSpaceComponent implements OnInit {
-  id: string;
-  space: any;
+  id: number;
+  space: Space;
   editSpaceForm: FormGroup;
   submitted = false;
   constructor(
@@ -39,7 +40,7 @@ export class EditSpaceComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
-    this.space = this.spaceService.getById(this.id).subscribe((x) => {
+    this.spaceService.getById(this.id).subscribe((x) => {
       this.space = x;
       console.log(x);
     });
@@ -77,6 +78,7 @@ export class EditSpaceComponent implements OnInit {
             horizontalPosition: 'right',
             verticalPosition: 'bottom'
           });
+          this.router.navigate(['']);
         },
         (error) => {
           this._snackBar.open(`✗ Error ${error.error.message}`, '', {

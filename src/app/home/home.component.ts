@@ -3,16 +3,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { first, tap } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 // import { HttpProviderService } from '../_services/http-provider.service';
-import { Space } from '../_models';
+import { Space } from '../_models/space';
 import { HttpClient } from '@angular/common/http';
-import {
-  UserService,
-  GarageService,
-  SpaceService,
-  ParkingService
-} from '../_services';
+import { UserService } from '../_services/user.service';
+import { GarageService } from '../_services/garage.service';
+import { SpaceService } from '../_services/space.service';
+import { ParkingService } from '../_services/parking.service';
+import { User } from '../_models/user';
+import { ParkingManager } from '../_models/parkingManager';
+import { Garage } from '../_models/garage';
+import { AllocationManager } from '../_models/allocationManager';
+import { Parking } from '../_models/parking';
 
 @Component({
   selector: 'app-home',
@@ -20,19 +23,19 @@ import {
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  user: any;
-  userInfo: any;
-  parkingManager: any;
-  garageId: any;
-  garage: any;
-  allocationManager: any;
-  spaceId: any;
-  space: any;
-  spaces: any[];
-  otherSpaces: any[];
+  user: User;
+  userInfo: User;
+  parkingManager: ParkingManager;
+  garageId: number;
+  garage: Garage;
+  allocationManager: AllocationManager;
+  spaceId: number;
+  space: Space;
+  spaces: Space[];
+  otherSpaces: Space[];
   isGuest = true;
   canPark: boolean;
-  parking: any;
+  parking: Parking;
   displayedColumns: string[] = [
     'code',
     'totalCapacity',
@@ -64,38 +67,33 @@ export class HomeComponent implements OnInit {
   }
 
   deleteGarage(): void {
-    this.garageService
-      .delete(this.garage.id)
-      .pipe(first())
-      .subscribe(() => {
-        if (this.user && this.user.role == 'ParkingManager') {
-          this.userService
-            .getParkingManager(this.user.id)
-            .pipe(first())
-            .subscribe((x) => {
-              this.parkingManager = x;
-              this.garageId = this.parkingManager.garageId;
-              this.garageService
-                .getById(this.garageId)
-                .pipe()
-                .subscribe((y) => {
-                  this.garage = y;
-                });
+    this.garageService.delete(this.garage.id).subscribe(() => {
+      this.userService
+        .getParkingManager(this.user.id)
+        .pipe()
+        .subscribe((x) => {
+          this.parkingManager = x;
+          this.garageId = this.parkingManager.garageId;
+          this.garageService
+            .getById(this.garageId)
+            .pipe()
+            .subscribe((y) => {
+              this.garage = y;
             });
-        }
-      });
+        });
+    });
   }
 
-  deleteSpace(id: string): void {
+  deleteSpace(id: number): void {
     console.log(id);
     this.spaceService
       .delete(id)
-      .pipe(first())
+      .pipe()
       .subscribe(() => {
         if (this.user && this.user.role == 'AllocationManager') {
           this.userService
             .getAllocationManager(this.user.id)
-            .pipe(first())
+            .pipe()
             .subscribe((x) => {
               this.allocationManager = x;
               this.spaceService.getAll().subscribe((data) => {
@@ -118,7 +116,7 @@ export class HomeComponent implements OnInit {
         this.parkingService.checkin().subscribe(() => {
           this.parkingService
             .getByUser(this.user.id)
-            .pipe(first())
+            .pipe()
             .subscribe((x) => {
               this.parking = x;
             });
@@ -138,7 +136,7 @@ export class HomeComponent implements OnInit {
             .pipe(first())
             .subscribe((x) => {
               this.parking = x;
-              if (x == false) {
+              if (!x) {
                 this.canPark = true;
                 console.log('CheckOut user can park');
               } else {
@@ -154,11 +152,11 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.isGuest = true;
     this.userService.user.subscribe((user) => {
+      debugger;
       this.user = user;
-      console.log(user);
       if (user == null) {
       } else {
-        this.userInfo = this.userService
+        this.userService
           .getById(this.user.id)
           .pipe(first())
           .subscribe((userInfo) => {
@@ -173,6 +171,7 @@ export class HomeComponent implements OnInit {
       }
     });
     if (this.user && this.user.role == 'ParkingManager') {
+      debugger;
       this.userService
         .getParkingManager(this.user.id)
         .pipe(first())
@@ -209,8 +208,9 @@ export class HomeComponent implements OnInit {
         .getByUser(this.user.id)
         .pipe(first())
         .subscribe((x) => {
-          if (x == false) {
+          if (!x) {
             this.canPark = true;
+            this.parking = new Parking();
             console.log(
               '🚀 ~ file: home.component.ts ~ line 173 ~ HomeComponent ~ .subscribe ~ this.canPark',
               this.canPark

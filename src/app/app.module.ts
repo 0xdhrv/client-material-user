@@ -13,14 +13,12 @@ import { SignupComponent } from './signup/signup.component';
 import { RegisterComponent } from './register/register.component';
 
 // Services
-import {
-  UserService,
-  GarageService,
-  SpaceService,
-  LocalService,
-  StorageService,
-  ParkingService
-} from './_services/';
+import { UserService } from 'src/app/_services/user.service';
+import { GarageService } from 'src/app/_services/garage.service';
+import { SpaceService } from 'src/app/_services/space.service';
+import { ParkingService } from 'src/app/_services/parking.service';
+import { LocalService } from 'src/app/_services/local.service';
+import { StorageService } from 'src/app/_services/storage.service';
 
 // Material Module
 import { MaterialModule } from './material.module';
@@ -38,6 +36,7 @@ import { BookParkingComponent } from './book-parking/book-parking.component';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { ReceiptComponent } from './receipt/receipt.component';
+import { Error404Component } from './error404/error404.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +52,8 @@ import { ReceiptComponent } from './receipt/receipt.component';
     CreateSpaceComponent,
     EditSpaceComponent,
     BookParkingComponent,
-    ReceiptComponent
+    ReceiptComponent,
+    Error404Component
   ],
   imports: [
     BrowserModule,

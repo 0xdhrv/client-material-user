@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
@@ -9,7 +7,6 @@ import {
   Validators,
   FormControl
 } from '@angular/forms';
-import { first } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { GarageService } from '../_services/garage.service';
@@ -65,7 +62,7 @@ export class CreateGarageComponent implements OnInit {
     return this.createGarageForm.controls;
   }
 
-  updateCleaningRate(event: any) {
+  updateCleaningRate(event: any): void {
     this.hasCleaningServiceFlag = event.checked;
     console.log(event.checked);
     console.log('Old :', this.createGarageForm);
@@ -83,41 +80,39 @@ export class CreateGarageComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
 
     alert(JSON.stringify(this.createGarageForm.value));
     console.log(JSON.stringify(this.createGarageForm.value));
 
-    this.garageService
-      .create(this.createGarageForm.value)
-      .pipe(first())
-      .subscribe(
-        (data) => {
-          this._snackBar.open(`✓ Garage Created`, '', {
-            duration: 1500,
-            horizontalPosition: 'right',
-            verticalPosition: 'bottom'
-          });
-        },
-        (error) => {
-          this._snackBar.open(`✗ Error ${error.error.message}`, '', {
-            duration: 1500,
-            horizontalPosition: 'right',
-            verticalPosition: 'bottom'
-          });
-          this.onReset();
-          console.log(error);
-        }
-      );
+    this.garageService.create(this.createGarageForm.value).subscribe(
+      () => {
+        this._snackBar.open(`✓ Garage Created`, '', {
+          duration: 1500,
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom'
+        });
+        this.router.navigate(['']);
+      },
+      (error) => {
+        this._snackBar.open(`✗ Error ${error.error.message}`, '', {
+          duration: 1500,
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom'
+        });
+        this.onReset();
+        console.log(error);
+      }
+    );
   }
 
-  onReset() {
+  onReset(): void {
     this.submitted = false;
     this.createGarageForm.reset();
   }
 
-  ngAfterViewChecked() {
+  ngAfterViewChecked(): void {
     this.cdRef.detectChanges();
   }
 }

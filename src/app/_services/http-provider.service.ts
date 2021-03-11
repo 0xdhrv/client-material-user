@@ -8,12 +8,16 @@ import { HttpClient } from '@angular/common/http';
 export class HttpProviderService {
   constructor(private http: HttpClient) {}
 
-  GetAll<T>(uri: string): Observable<T[]> {
-    return this.http.get<T[]>(`${uri}`);
+  GetAll<T>(uri: string): Observable<T> {
+    return this.http.get<T>(`${uri}`);
   }
 
   GetAllById<T>(uri: string, param?: any): Observable<T[]> {
     return this.http.get<T[]>(`${uri}/${param}`);
+  }
+
+  OnlyGet<T>(uri: string): Observable<T> {
+    return this.http.get<T>(`${uri}`);
   }
 
   Get<T>(uri: string, param?: any): Observable<T> {
@@ -27,8 +31,7 @@ export class HttpProviderService {
   Update<T>(uri: string, params?: any): Observable<T> {
     return this.http.put<T>(`${uri}`, params);
   }
-
-  Delete<T>(uri: string, param?: any) {
+  Delete<T>(uri: string, param?: any): Observable<T> {
     return this.http.delete<T>(`${uri}/${param}`);
   }
 }

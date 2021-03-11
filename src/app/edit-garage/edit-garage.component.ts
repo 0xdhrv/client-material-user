@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, OnInit } from '@angular/core';
 import {
@@ -14,6 +13,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { GarageService } from '../_services/garage.service';
 import { Router } from '@angular/router';
 import { UserService } from '../_services/user.service';
+import { Garage } from '../_models/garage';
+import { ParkingManager } from '../_models/parkingManager';
+import { User } from '../_models/user';
 
 @Component({
   selector: 'app-edit-garage',
@@ -21,10 +23,10 @@ import { UserService } from '../_services/user.service';
   styleUrls: ['./edit-garage.component.css']
 })
 export class EditGarageComponent implements OnInit {
-  garage: any;
-  user: any;
-  parkingManager: any;
-  garageId: any;
+  garage: Garage;
+  user: User;
+  parkingManager: ParkingManager;
+  garageId: number;
   editGarageForm: FormGroup;
   submitted = false;
   hasCleaningServiceFlag: boolean;
@@ -73,7 +75,7 @@ export class EditGarageComponent implements OnInit {
           this.garageId = this.parkingManager.garageId;
           console.log(this.garageId);
           this.garageService
-            .getById(this.garageId.toString())
+            .getById(this.garageId)
             .pipe()
             .subscribe((y) => {
               console.log(y);
@@ -101,7 +103,7 @@ export class EditGarageComponent implements OnInit {
     return this.editGarageForm.controls;
   }
 
-  initialCleaningRate(fg: boolean) {
+  initialCleaningRate(fg: boolean): void {
     if (fg) {
       this.editGarageForm.controls['cleaningRate'].reset();
       this.editGarageForm.controls['cleaningRate'].setValidators([
@@ -113,7 +115,7 @@ export class EditGarageComponent implements OnInit {
     }
   }
 
-  updateCleaningRate(event: any) {
+  updateCleaningRate(event: any): void {
     this.hasCleaningServiceFlag = event.checked;
     if (event.checked) {
       this.editGarageForm.controls['cleaningRate'].reset();
@@ -126,7 +128,7 @@ export class EditGarageComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
 
     alert(JSON.stringify(this.editGarageForm.value));
@@ -136,12 +138,13 @@ export class EditGarageComponent implements OnInit {
       .update(this.editGarageForm.value, this.garageId)
       .pipe(first())
       .subscribe(
-        (data) => {
+        () => {
           this._snackBar.open(`✓ Garage Edited`, '', {
             duration: 1500,
             horizontalPosition: 'right',
             verticalPosition: 'bottom'
           });
+          this.router.navigate(['']);
         },
         (error) => {
           this._snackBar.open(`✗ Error ${error.error.message}`, '', {
@@ -155,7 +158,7 @@ export class EditGarageComponent implements OnInit {
       );
   }
 
-  onReset() {
+  onReset(): void {
     this.submitted = false;
     this.editGarageForm.reset();
   }

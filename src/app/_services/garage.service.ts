@@ -1,41 +1,44 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Garage } from '../_models/garage';
-import { Router } from '@angular/router';
-import { environment } from '../../environments/environment';
-import { HttpProviderService } from '../_services/http-provider.service';
+import { Observable } from 'rxjs';
+
+// Environments
+import { environment } from 'src/environments/environment';
+
+// Models
+import { Garage } from 'src/app/_models/garage';
+
+// Services
+import { HttpProviderService } from 'src/app/_services/http-provider.service';
 
 @Injectable({ providedIn: 'root' })
 export class GarageService {
-  private garageSubject: BehaviorSubject<any>;
   public garage: Observable<Garage>;
 
-  constructor(private router: Router, private http: HttpProviderService) {
-    this.garageSubject = new BehaviorSubject<any>(
-      JSON.parse(localStorage.getItem('{}'))
+  constructor(private http: HttpProviderService) {}
+
+  create(garage: Garage): Observable<Garage> {
+    return this.http.Post<Garage>(
+      `${environment.apiUrl}/garages/create`,
+      garage
     );
-    this.garage = this.garageSubject.asObservable();
   }
 
-  getAll() {
-    return this.http.GetAll(`${environment.apiUrl}/garages`);
+  update(garage: Garage, id: number): Observable<Garage> {
+    return this.http.Update<Garage>(
+      `${environment.apiUrl}/garages/${id}`,
+      garage
+    );
   }
 
-  getById(id: string) {
-    return this.http.Get(`${environment.apiUrl}/garages`, id);
+  delete(id: number): Observable<Garage> {
+    return this.http.Delete<Garage>(`${environment.apiUrl}/garages`, id);
   }
 
-  create(garage: Garage) {
-    return this.http.Post(`${environment.apiUrl}/garages/create`, garage);
+  getAll(): Observable<Garage[]> {
+    return this.http.GetAll<Garage[]>(`${environment.apiUrl}/garages`);
   }
 
-  update(garage: Garage, id: string) {
-    return this.http.Update(`${environment.apiUrl}/garages/${id}`, garage);
-  }
-
-  delete(id: string) {
-    return this.http.Delete(`${environment.apiUrl}/garages`, id);
+  getById(id: number): Observable<Garage> {
+    return this.http.Get<Garage>(`${environment.apiUrl}/garages`, id);
   }
 }

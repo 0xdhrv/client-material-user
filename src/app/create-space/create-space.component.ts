@@ -81,6 +81,7 @@ export class CreateSpaceComponent implements OnInit {
             horizontalPosition: 'right',
             verticalPosition: 'bottom'
           });
+          this.router.navigate(['']);
         },
         (error) => {
           this._snackBar.open(`✗ Error ${error.error.message}`, '', {

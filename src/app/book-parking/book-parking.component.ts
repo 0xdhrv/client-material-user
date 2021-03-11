@@ -1,23 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl
-} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Router } from '@angular/router';
-import { first } from 'rxjs/operators';
-import {
-  UserService,
-  GarageService,
-  SpaceService,
-  ParkingService
-} from '../_services';
+import { Space } from '../_models/space';
+import { UserService } from '../_services/user.service';
+import { GarageService } from '../_services/garage.service';
+import { SpaceService } from '../_services/space.service';
+import { ParkingService } from '../_services/parking.service';
+import { Garage } from '../_models/garage';
+import { User } from '../_models/user';
 
 @Component({
   selector: 'app-book-parking',
@@ -27,12 +20,12 @@ import {
 export class BookParkingComponent implements OnInit {
   bookParkingForm: FormGroup;
   submitted = false;
-  user: any;
-  garages: any[];
-  spaces: any[];
-  selectedGarageId: string;
+  user: User;
+  garages: Garage[];
+  spaces: Space[];
+  selectedGarageId: number;
   selectedGarage = false;
-  selectedSpaceId: string;
+  selectedSpaceId: number;
   selectedSpace = false;
   withCleaningServiceFlag: boolean;
   hasCleaningService: boolean;
@@ -69,22 +62,22 @@ export class BookParkingComponent implements OnInit {
   }
 
   selectGarage(
-    id: string,
+    id: number,
     garageOccupiedCapacity: string,
     garageTotalCapacity: string,
     hasCleaningService: boolean
-  ) {
+  ): void {
     if (this.selectedGarageId == id) {
       this.selectedGarage = !this.selectedGarage;
       this.bookParkingForm.controls['garageId'].reset();
       this.bookParkingForm.controls['spaceId'].reset();
-      this.selectedGarageId = '';
-      this.selectedSpaceId = '';
+      this.selectedGarageId = 0;
+      this.selectedSpaceId = 0;
     } else {
       this.selectedGarage = true;
       // this.selectedGarageId = id;
       this.bookParkingForm.controls['spaceId'].reset();
-      this.selectedSpaceId = '';
+      this.selectedSpaceId = 0;
       if (garageOccupiedCapacity < garageTotalCapacity) {
         this.selectedGarageId = id;
         this.spaceService
@@ -109,14 +102,14 @@ export class BookParkingComponent implements OnInit {
   }
 
   selectSpace(
-    id: string,
+    id: number,
     spaceOccupiedCapacity: string,
     spaceTotalCapacity: string
-  ) {
+  ): void {
     if (this.selectedSpaceId == id) {
       this.selectedSpace = !this.selectedSpace;
       this.bookParkingForm.controls['spaceId'].reset();
-      this.selectedSpaceId = '';
+      this.selectedSpaceId = 0;
     } else {
       this.selectedSpace = true;
       // this.selectedSpaceId = id;
@@ -131,7 +124,7 @@ export class BookParkingComponent implements OnInit {
     return this.bookParkingForm.controls;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
 
     alert(JSON.stringify(this.bookParkingForm.value));
@@ -139,14 +132,15 @@ export class BookParkingComponent implements OnInit {
 
     this.parkingService
       .book(this.bookParkingForm.value)
-      .pipe(first())
+      .pipe()
       .subscribe(
-        (data) => {
+        () => {
           this._snackBar.open(`✓ Parking Booked`, '', {
             duration: 1500,
             horizontalPosition: 'right',
             verticalPosition: 'bottom'
           });
+          this.router.navigate(['']);
         },
         (error) => {
           this._snackBar.open(`✗ Error ${error}`, '', {
@@ -154,13 +148,13 @@ export class BookParkingComponent implements OnInit {
             horizontalPosition: 'right',
             verticalPosition: 'bottom'
           });
-          // this.onReset();
+          this.onReset();
           console.log(error);
         }
       );
   }
 
-  onReset() {
+  onReset(): void {
     this.submitted = false;
     this.bookParkingForm.reset();
   }

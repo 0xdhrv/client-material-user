@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 
@@ -8,13 +8,13 @@ import { StorageService } from './storage.service';
 })
 export class LocalService {
   constructor(private storageService: StorageService) {}
-  setJsonValue(key: string, value: any) {
+  setJsonValue(key: string, value: any): void {
     this.storageService.secureStorage.setItem(key, value);
   }
-  getJsonValue(key: string) {
+  getJsonValue(key: string): string {
     return this.storageService.secureStorage.getItem(key);
   }
-  clear() {
+  clear(): string {
     return this.storageService.secureStorage.clear();
   }
 }
