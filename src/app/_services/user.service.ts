@@ -67,6 +67,10 @@ export class UserService {
     this.userSubject.next(null);
   }
 
+  getAll(): Observable<User[]> {
+    return this.http.GetAll<User[]>(`${environment.apiUrl}/users`);
+  }
+
   getById(id: number): Observable<User> {
     return this.http.Get<User>(`${environment.apiUrl}/users`, id);
   }

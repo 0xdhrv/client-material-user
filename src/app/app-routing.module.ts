@@ -14,6 +14,10 @@ import { EditSpaceComponent } from './edit-space/edit-space.component';
 import { BookParkingComponent } from './book-parking/book-parking.component';
 import { AuthGuard } from './_helpers/auth.guard';
 import { ReceiptComponent } from './receipt/receipt.component';
+// import { ParkingmanagerComponent } from './parkingmanager/parkingmanager.component';
+
+const adminModule = () =>
+  import('src/app/admin/admin.module').then((x) => x.AdminModule);
 
 const routes: Routes = [
   // {
@@ -119,7 +123,17 @@ const routes: Routes = [
       title: 'Parking Receipt'
     }
   },
-  { path: '**', redirectTo: '' }
+  // {
+  //   path: 'parkingmanager',
+  //   canActivate: [AuthGuard],
+  //   component: ParkingmanagerComponent,
+  //   data: {
+  //     roles: ['ParkingManager'],
+  //     title: 'Parking Manager'
+  //   }
+  // }Z
+  { path: 'admin', loadChildren: adminModule }
+  // { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

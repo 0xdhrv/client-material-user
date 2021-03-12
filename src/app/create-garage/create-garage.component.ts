@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
@@ -49,13 +50,9 @@ export class CreateGarageComponent implements OnInit {
       hasCleaningService: this.formBuilder.control('', [Validators.required])
     });
 
-    console.log(this.createGarageForm.controls['hasCleaningService'].value);
-
     this.createGarageForm.controls['hasCleaningService'].setValue(false);
     this.createGarageForm.addControl('cleaningRate', new FormControl());
-    this.createGarageForm.controls['cleaningRate'].setValue('0');
-
-    console.log(this.createGarageForm.controls['hasCleaningService'].value);
+    // this.createGarageForm.controls['cleaningRate'].setValue('0');
   }
 
   get f() {
@@ -64,27 +61,20 @@ export class CreateGarageComponent implements OnInit {
 
   updateCleaningRate(event: any): void {
     this.hasCleaningServiceFlag = event.checked;
-    console.log(event.checked);
-    console.log('Old :', this.createGarageForm);
     if (event.checked) {
       // this.createGarageForm.addControl('cleaningRate', new FormControl());
       this.createGarageForm.controls['cleaningRate'].reset();
       this.createGarageForm.controls['cleaningRate'].setValidators([
         Validators.required
       ]);
-      console.log('Added :', this.createGarageForm);
     } else {
       this.createGarageForm.controls['cleaningRate'].setValue('0');
       // this.createGarageForm.removeControl('cleaningRate');
-      console.log('Removed :', this.createGarageForm);
     }
   }
 
   onSubmit(): void {
     this.submitted = true;
-
-    alert(JSON.stringify(this.createGarageForm.value));
-    console.log(JSON.stringify(this.createGarageForm.value));
 
     this.garageService.create(this.createGarageForm.value).subscribe(
       () => {
@@ -102,7 +92,6 @@ export class CreateGarageComponent implements OnInit {
           verticalPosition: 'bottom'
         });
         this.onReset();
-        console.log(error);
       }
     );
   }

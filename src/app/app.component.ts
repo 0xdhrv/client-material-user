@@ -19,6 +19,8 @@ import { Idle } from 'idlejs/dist';
 export class AppComponent {
   idle: Idle;
   user: User;
+  userInfo: User;
+  isGuest: boolean;
 
   ngOnInit(): void {
     // Logging Out User if inactive for 30 Minutes
@@ -30,7 +32,33 @@ export class AppComponent {
 
     this.userService.user.subscribe((user) => {
       this.user = user;
+      if (user == null) {
+      } else {
+        this.userService
+          .getById(this.user.id)
+          .pipe()
+          .subscribe((userInfo) => {
+            this.userInfo = userInfo;
+          });
+        if (user && user.role) {
+          this.isGuest = false;
+        } else {
+          this.isGuest = true;
+        }
+      }
     });
+  }
+
+  delete(): void {
+    this.userService.delete(this.user.id).pipe().subscribe();
+    this.userService.logout();
+    this.isGuest = true;
+  }
+
+  logout(): void {
+    this.userService.logout();
+    this.router.navigate(['/home']);
+    this.isGuest = true;
   }
 
   constructor(
@@ -39,6 +67,7 @@ export class AppComponent {
     private titleService: Title,
     private userService: UserService
   ) {
+    this.isGuest = true;
     // getting static data of title from routes array
     this.router.events
       .pipe(

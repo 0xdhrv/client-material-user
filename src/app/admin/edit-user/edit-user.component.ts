@@ -1,15 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { MustMatch } from '../_helpers/must-match.validator';
-
-import { UserService } from '../_services/user.service';
-import { Router } from '@angular/router';
-import { User } from '../_models/user';
+import { UserService } from 'src/app/_services/user.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { User } from 'src/app/_models/user';
 
 @Component({
   selector: 'app-edit-user',
@@ -17,6 +13,7 @@ import { User } from '../_models/user';
   styleUrls: ['./edit-user.component.css']
 })
 export class EditUserComponent implements OnInit {
+  id: number;
   user: User;
   editUserForm: FormGroup;
   submitted = false;
@@ -25,10 +22,12 @@ export class EditUserComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private _snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.id = this.route.snapshot.params['id'];
     this.user = this.userService.userValue;
     console.log(this.user);
     this.editUserForm = this.formBuilder.group({
@@ -48,10 +47,8 @@ export class EditUserComponent implements OnInit {
       ]
     });
 
-    console.log(this.user.id);
-
     this.userService
-      .getById(this.user.id)
+      .getById(this.id)
       .pipe(first())
       .subscribe((x) => this.editUserForm.patchValue(x));
   }
@@ -71,31 +68,28 @@ export class EditUserComponent implements OnInit {
 
     alert(JSON.stringify(this.editUserForm.value));
 
-    this.userService
-      .update(this.editUserForm.value, this.user.id)
-      .pipe(first())
-      .subscribe(
-        (data) => {
-          this._snackBar.open('✓ Edited', '', {
-            duration: 1500,
-            horizontalPosition: 'right',
-            verticalPosition: 'bottom'
-          });
-          this.router.navigate(['']);
-        },
-        (error) => {
-          this._snackBar.open(`✗ Error ${error.error.message}`, '', {
-            duration: 1500,
-            horizontalPosition: 'right',
-            verticalPosition: 'bottom'
-          });
-          this.onReset();
-          console.log(error);
-        }
-      );
+    this.userService.update(this.editUserForm.value, this.id).subscribe(
+      () => {
+        this._snackBar.open('✓ Edited', '', {
+          duration: 1500,
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom'
+        });
+        this.router.navigate(['/admin']);
+      },
+      (error) => {
+        this._snackBar.open(`✗ Error ${error.error.message}`, '', {
+          duration: 1500,
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom'
+        });
+        this.onReset();
+        console.log(error);
+      }
+    );
   }
 
-  onReset() {
+  onReset(): void {
     this.submitted = false;
     this.editUserForm.reset();
   }

@@ -21,7 +21,7 @@ import { LocalService } from 'src/app/_services/local.service';
 import { StorageService } from 'src/app/_services/storage.service';
 
 // Material Module
-import { MaterialModule } from './material.module';
+import { MaterialModule } from 'src/app/material.module';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { HttpProviderService } from './_services/http-provider.service';
 import { EditUserComponent } from './edit-user/edit-user.component';
@@ -34,9 +34,10 @@ import { CreateSpaceComponent } from './create-space/create-space.component';
 import { EditSpaceComponent } from './edit-space/edit-space.component';
 import { BookParkingComponent } from './book-parking/book-parking.component';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
-import { ClickOutsideModule } from 'ng-click-outside';
 import { ReceiptComponent } from './receipt/receipt.component';
 import { Error404Component } from './error404/error404.component';
+// import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+// import { ParkingmanagerComponent } from './parkingmanager/parkingmanager.component';
 
 @NgModule({
   declarations: [
@@ -63,8 +64,7 @@ import { Error404Component } from './error404/error404.component';
     BrowserAnimationsModule,
     MaterialModule,
     LoadingBarRouterModule,
-    HttpClientModule,
-    ClickOutsideModule
+    HttpClientModule
   ],
   providers: [
     Title,
@@ -85,6 +85,10 @@ import { Error404Component } from './error404/error404.component';
       useClass: ErrorInterceptor,
       multi: true
     }
+    // {
+    //   provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+    //   useValue: { floatLabel: 'always' }
+    // }
   ],
   bootstrap: [AppComponent]
 })

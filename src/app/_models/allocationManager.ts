@@ -7,5 +7,5 @@ export class AllocationManager {
   state?: string;
   phone?: string;
   role?: string;
-  space?: string;
+  space?: number;
 }

@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { UserService } from '../_services/user.service';
 import { Router } from '@angular/router';
+import { User } from '../_models/user';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   submitted = false;
+  user: User;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -45,22 +47,39 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    alert(JSON.stringify(this.loginForm.value));
-
     this.userService
       .login(
         this.loginForm.controls.email.value,
         this.loginForm.controls.password.value
       )
-      .pipe(first())
+      .pipe()
       .subscribe(
-        (data) => {
+        (user) => {
           this._snackBar.open('✓ Logged In', '', {
             duration: 1500,
             horizontalPosition: 'right',
             verticalPosition: 'top'
           });
-          this.router.navigate(['/home']);
+          this.user = user;
+          console.log(
+            '🚀 ~ file: login.component.ts ~ line 64 ~ LoginComponent ~ onSubmit ~ this.user ',
+            this.user
+          );
+          if (this.user.role == 'Admin') {
+            this.router.navigate(['/admin']);
+            // this.router.navigate(['']);
+            console.log('Admin');
+          }
+          if (this.user.role == 'ParkingManager') {
+            // this.router.navigate(['/parkingmanager']);
+            console.log('PM');
+          }
+          if (this.user.role == 'AllocationManager') {
+            console.log('AM');
+          }
+          if (this.user.role == 'User') {
+            console.log('User');
+          }
         },
         (error) => {
           console.log(error);

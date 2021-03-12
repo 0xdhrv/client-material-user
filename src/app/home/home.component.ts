@@ -85,7 +85,6 @@ export class HomeComponent implements OnInit {
   }
 
   deleteSpace(id: number): void {
-    console.log(id);
     this.spaceService
       .delete(id)
       .pipe()
@@ -138,10 +137,8 @@ export class HomeComponent implements OnInit {
               this.parking = x;
               if (!x) {
                 this.canPark = true;
-                console.log('CheckOut user can park');
               } else {
                 this.parking = x;
-                console.log('CheckOut user cannot park');
               }
             });
         });
@@ -152,7 +149,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.isGuest = true;
     this.userService.user.subscribe((user) => {
-      debugger;
       this.user = user;
       if (user == null) {
       } else {
@@ -161,7 +157,6 @@ export class HomeComponent implements OnInit {
           .pipe(first())
           .subscribe((userInfo) => {
             this.userInfo = userInfo;
-            console.log(this.userInfo);
           });
         if (user && user.role) {
           this.isGuest = false;
@@ -171,7 +166,6 @@ export class HomeComponent implements OnInit {
       }
     });
     if (this.user && this.user.role == 'ParkingManager') {
-      debugger;
       this.userService
         .getParkingManager(this.user.id)
         .pipe(first())
@@ -211,18 +205,8 @@ export class HomeComponent implements OnInit {
           if (!x) {
             this.canPark = true;
             this.parking = new Parking();
-            console.log(
-              '🚀 ~ file: home.component.ts ~ line 173 ~ HomeComponent ~ .subscribe ~ this.canPark',
-              this.canPark
-            );
-            console.log('user can park');
           } else {
             this.parking = x;
-            console.log(
-              '🚀 ~ file: home.component.ts ~ line 176 ~ HomeComponent ~ .subscribe ~ this.parking',
-              this.parking
-            );
-            console.log('user cannot park');
           }
         });
     }
