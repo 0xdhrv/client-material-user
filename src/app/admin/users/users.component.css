@@ -20,7 +20,7 @@ tr.table-element-row:not(.table-expanded-row):active {
 
 .table-element-detail {
   overflow: hidden;
-  display: flex;
+  display: block;
 }
 
 .table-element-diagram {

@@ -5,7 +5,7 @@
     </button>
     <mat-form-field class="w-100">
       <mat-label>Filter</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="" #input />
+      <input matInput (keyup)="applyFilter($event)" placeholder="" #input/>
     </mat-form-field>
 
     <table
@@ -13,10 +13,10 @@
       mat-table
       [dataSource]="userSource"
       multiTemplateDataRows
-      class="w-100 overflow-hidden"
+      class="w-100 overflow-hidden pointer"
     >
       <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
-      <ng-container matColumnDef="name" class="pointer">
+      <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
         <td mat-cell *matCellDef="let user">{{ user.name }}</td>
       </ng-container>
@@ -26,9 +26,9 @@
         <td mat-cell *matCellDef="let user">{{ user.email }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="city">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>City</th>
-        <td mat-cell *matCellDef="let user">{{ user.city }}</td>
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
+        <td mat-cell *matCellDef="let user">{{ user.role }}</td>
       </ng-container>
 
       <ng-container matColumnDef="phone">
@@ -60,7 +60,7 @@
           >
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button aria-label="Delete User">
+          <button (click)="delete(user.id)"  mat-icon-button aria-label="Delete User">
             <mat-icon>delete</mat-icon>
           </button>
         </td>
@@ -69,15 +69,19 @@
       <ng-container matColumnDef="expandedDetail">
         <td
           mat-cell
-          *matCellDef="let element"
+          *matCellDef="let user"
           [attr.colspan]="userColumnsToDisplay.length"
         >
           <div
             class="table-element-detail"
-            [@detailExpand]="
-              element == expandedElement ? 'expanded' : 'collapsed'
-            "
-          ></div>
+            [@detailExpand]="user == expandedElement ? 'expanded' : 'collapsed'"
+          >
+            <div class="lh-copy pv1 db">
+              <span class="dark-grey">Address:</span> {{ user.address }}
+            </div>
+            <div class="lh-copy pv1 db">City: {{ user.city }}</div>
+            <div class="lh-copy pv1 db">State: {{ user.state }}</div>
+          </div>
         </td>
       </ng-container>
 
@@ -93,7 +97,7 @@
       <tr
         mat-row
         *matRowDef="let row; columns: ['expandedDetail']"
-        class="table-detail-row"
+        class="table-detail-row pointer"
       ></tr>
     </table>
 
