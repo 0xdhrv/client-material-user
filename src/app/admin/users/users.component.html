@@ -1,7 +1,8 @@
 <div class="pa4">
   <div class="overflow-auto">
-    <h3>All Users</h3>
-
+    <button routerLink="create-user/" mat-icon-button aria-label="Add User">
+      <mat-icon>add</mat-icon>
+    </button>
     <mat-form-field class="w-100">
       <mat-label>Filter</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="" #input />

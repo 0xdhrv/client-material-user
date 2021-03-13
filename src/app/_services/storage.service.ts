@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { Injectable } from '@angular/core';
+
 import * as CryptoJS from 'crypto-js';
 
 // Environment

@@ -10,6 +10,8 @@ import { MustMatch } from 'src/app/_helpers/must-match.validator';
 import { UserService } from 'src/app/_services/user.service';
 import { Router } from '@angular/router';
 import { RegisterRole } from 'src/app/_models/registerRole';
+import { map, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-create-user',
@@ -24,6 +26,37 @@ export class CreateUserComponent implements OnInit {
     { value: 'ParkingManager', viewValue: 'Parking Manager' },
     { value: 'User', viewValue: 'Customer' }
   ];
+  stateOptions: string[] = [
+    'Andhra Pradesh',
+    'Arunachal Pradesh',
+    'Assam',
+    'Bihar',
+    'Chhattisgarh',
+    'Goa',
+    'Gujarat',
+    'Haryana',
+    'Himachal Pradesh',
+    'Jharkhand',
+    'Karnataka',
+    'Kerala',
+    'Madhya Pradesh',
+    'Maharashtra',
+    'Manipur',
+    'Meghalaya',
+    'Mizoram',
+    'Nagaland',
+    'Odisha',
+    'Punjab',
+    'Rajasthan',
+    'Sikkim',
+    'Tamil Nadu',
+    'Telangana',
+    'Tripura',
+    'Uttar Pradesh',
+    'Uttarakhand',
+    'West Bengal'
+  ];
+  filteredStateOptions: Observable<string[]>;
   constructor(
     private formBuilder: FormBuilder,
     public userService: UserService,
@@ -54,6 +87,21 @@ export class CreateUserComponent implements OnInit {
       {
         validator: MustMatch('password', 'confirmPassword')
       }
+    );
+
+    this.filteredStateOptions = this.createUserForm.controls[
+      'state'
+    ].valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value))
+    );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.stateOptions.filter((option) =>
+      option.toLowerCase().includes(filterValue)
     );
   }
 

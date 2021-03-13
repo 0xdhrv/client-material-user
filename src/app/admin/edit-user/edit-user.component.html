@@ -78,10 +78,15 @@
         <div class="mt2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>State</mat-label>
-            <input formControlName="state" matInput placeholder="New York" />
+            <input formControlName="state" matInput placeholder="Gujarat" [matAutocomplete]="auto" />
             <mat-error *ngIf="f.state.hasError('required')">
               Required
             </mat-error>
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filteredStateOptions | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
         </div>
         <div class="mt2">
