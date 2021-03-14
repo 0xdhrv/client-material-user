@@ -57,7 +57,7 @@ export class AppComponent {
 
   logout(): void {
     this.userService.logout();
-    this.router.navigate(['/home']);
+    this.router.navigate(['/']);
     this.isGuest = true;
   }
 

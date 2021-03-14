@@ -19,6 +19,11 @@ import { ReceiptComponent } from './receipt/receipt.component';
 const adminModule = () =>
   import('src/app/admin/admin.module').then((x) => x.AdminModule);
 
+const parkingManagerModule = () =>
+  import('src/app/parking-manager/parking-manager.module').then(
+    (x) => x.ParkingManagerModule
+  );
+
 const routes: Routes = [
   // {
   //   path: '',
@@ -131,8 +136,23 @@ const routes: Routes = [
   //     roles: ['ParkingManager'],
   //     title: 'Parking Manager'
   //   }
-  // }Z
-  { path: 'admin', loadChildren: adminModule }
+  // }
+  {
+    path: 'admin',
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['Admin']
+    },
+    loadChildren: adminModule
+  },
+  {
+    path: 'parkingmanager',
+    // canActivate: [AuthGuard],
+    // data: {
+    //   roles: ['Admin']
+    // },
+    loadChildren: parkingManagerModule
+  }
   // { path: '**', redirectTo: '' }
 ];
 

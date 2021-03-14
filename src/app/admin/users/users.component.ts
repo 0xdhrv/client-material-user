@@ -84,7 +84,7 @@ export class UsersComponent implements OnInit {
           });
         },
         (error) => {
-          this._snackBar.open(`✗ Error ${error.error.message}`, '', {
+          this._snackBar.open(`✗ Error ${error}`, '', {
             duration: 1500,
             horizontalPosition: 'right',
             verticalPosition: 'bottom'

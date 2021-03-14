@@ -47,4 +47,16 @@ export class ParkingService {
   getByUser(id: number): Observable<Parking> {
     return this.http.Get<Parking>(`${environment.apiUrl}/parkings/byuser`, id);
   }
+
+  getByGarage(id: number): Observable<Parking[]> {
+    return this.http.GetAll<Parking[]>(
+      `${environment.apiUrl}/parkings/garage/${id}`
+    );
+  }
+
+  getHistoryByGarage(id: number): Observable<ParkingHistory[]> {
+    return this.http.GetAll<ParkingHistory[]>(
+      `${environment.apiUrl}/parkings/history/garage/${id}`
+    );
+  }
 }

@@ -8,8 +8,9 @@ export class Parking {
   userCheckIn?: Date;
   userCheckOut?: Date;
   withCleaningService?: boolean;
-  parkingCost?: string;
   cleaningCost?: string;
-  isActive?: boolean;
+  parkingCost?: string;
   cost?: string;
+  isActive?: boolean;
+  isBooked?: boolean;
 }

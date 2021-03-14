@@ -10,7 +10,7 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { GarageService } from '../_services/garage.service';
+import { GarageService } from 'src/app/_services/garage.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -86,7 +86,7 @@ export class CreateGarageComponent implements OnInit {
           horizontalPosition: 'right',
           verticalPosition: 'bottom'
         });
-        this.router.navigate(['']);
+        this.router.navigate(['/parkingmanager']);
       },
       (error) => {
         this._snackBar.open(`✗ Error ${error}`, '', {

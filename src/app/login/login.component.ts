@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
             console.log('Admin');
           }
           if (this.user.role == 'ParkingManager') {
-            // this.router.navigate(['/parkingmanager']);
+            this.router.navigate(['/parkingmanager']);
             console.log('PM');
           }
           if (this.user.role == 'AllocationManager') {
