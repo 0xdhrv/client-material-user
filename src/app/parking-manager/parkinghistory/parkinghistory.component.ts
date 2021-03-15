@@ -95,7 +95,7 @@ export class ParkinghistoryComponent implements OnInit {
           .getHistoryByGarage(this.parkingManager.garageId)
           .subscribe((parkingHistories) => {
             this.parkingHistories = parkingHistories;
-            console.log(this.parkingHistories);
+            console.log(this.parkingHistories[0].parkingCost);
             this.parkingHistorySource = new MatTableDataSource<ParkingHistory>(
               parkingHistories
             );
