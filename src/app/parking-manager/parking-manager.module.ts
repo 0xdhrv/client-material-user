@@ -23,7 +23,14 @@ import { ParkingComponent } from './parking/parking.component';
 import { ParkinghistoryComponent } from './parkinghistory/parkinghistory.component';
 
 @NgModule({
-  declarations: [HomeComponent, GarageComponent, CreateGarageComponent, EditGarageComponent, ParkingComponent, ParkinghistoryComponent],
+  declarations: [
+    HomeComponent,
+    GarageComponent,
+    CreateGarageComponent,
+    EditGarageComponent,
+    ParkingComponent,
+    ParkinghistoryComponent
+  ],
   imports: [
     CommonModule,
     ParkingManagerRoutingModule,

@@ -61,24 +61,18 @@ export class LoginComponent implements OnInit {
             verticalPosition: 'top'
           });
           this.user = user;
-          console.log(
-            '🚀 ~ file: login.component.ts ~ line 64 ~ LoginComponent ~ onSubmit ~ this.user ',
-            this.user
-          );
           if (this.user.role == 'Admin') {
             this.router.navigate(['/admin']);
             // this.router.navigate(['']);
-            console.log('Admin');
           }
           if (this.user.role == 'ParkingManager') {
             this.router.navigate(['/parkingmanager']);
-            console.log('PM');
           }
           if (this.user.role == 'AllocationManager') {
-            console.log('AM');
+            this.router.navigate(['/allocationmanager']);
           }
           if (this.user.role == 'User') {
-            console.log('User');
+            this.router.navigate(['']);
           }
         },
         (error) => {
@@ -86,7 +80,7 @@ export class LoginComponent implements OnInit {
           this._snackBar.open(`✗ Error ${error}`, '', {
             duration: 1500,
             horizontalPosition: 'right',
-            verticalPosition: 'top'
+            verticalPosition: 'bottom'
           });
           this.onReset();
           console.log(error);

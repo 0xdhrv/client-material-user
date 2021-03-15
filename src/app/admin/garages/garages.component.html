@@ -1,1 +1,151 @@
-<p>garages works!</p>
+<div class="pa4">
+    <div class="overflow-auto">
+      <button routerLink="create-garage/" mat-icon-button aria-label="Add Garage">
+        <mat-icon>add</mat-icon>
+      </button>
+      <mat-form-field class="w-100">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="" #input/>
+      </mat-form-field>
+  
+      <table
+        matSort
+        mat-table
+        [dataSource]="garageSource"
+        multiTemplateDataRows
+        class="w-100 overflow-hidden pointer"
+      >
+        <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+          <td mat-cell *matCellDef="let garage">{{ garage.name }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef>Address</th>
+          <td mat-cell *matCellDef="let garage">{{ garage.address }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="state">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>State</th>
+          <td mat-cell *matCellDef="let garage">{{ garage.state }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="hasCleaning">
+          <th mat-header-cell *matHeaderCellDef>Cleaning service</th>
+          <td mat-cell *matCellDef="let garage">{{ garage.hasCleaning }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="cleaningRate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cleaning Rate</th>
+            <td mat-cell *matCellDef="let garage">{{ garage.cleaningRate }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="parkingRate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Parking Rate</th>
+            <td mat-cell *matCellDef="let garage">{{ garage.parkingRate }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalCapacity">
+            <th mat-header-cell *matHeaderCellDef>Total space</th>
+            <td mat-cell *matCellDef="let garage">{{ garage.totalCapacity }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="occupiedCapacity">
+            <th mat-header-cell *matHeaderCellDef>Occupied capacity</th>
+            <td mat-cell *matCellDef="let garage">{{ garage.occupiedCapacity }}</td>
+          </ng-container>
+  
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let garage">
+            <button
+              routerLink="./create-garage"
+              mat-icon-button
+              aria-label="Add Garage"
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+            <button
+              routerLink="./edit-garage{{ garage.id }}"
+              mat-icon-button
+              aria-label="Edit Garage"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button (click)="delete(garage.id)"  mat-icon-button aria-label="Delete Garage">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="expandedDetail">
+          <td
+            mat-cell
+            *matCellDef="let garage"
+            [attr.colspan]="garageColumnsToDisplay.length"
+          >
+            <div
+              class="table-element-detail"
+              [@detailExpand]="garage == expandedElement ? 'expanded' : 'collapsed'"
+            >
+              <div class="lh-copy pv1 db">
+                <span class="dark-grey">Address:</span> {{ garage.address }}
+              </div>
+              <div class="lh-copy pv1 db">State: {{ garage.state }}</div>
+            </div>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="garageColumnsToDisplay"></tr>
+        <tr
+          class="pointer"
+          mat-row
+          *matRowDef="let element; columns: garageColumnsToDisplay"
+          class="table-element-row"
+          [class.table-expanded-row]="expandedElement === element"
+          (click)="expandedElement = expandedElement === element ? null : element"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: ['expandedDetail']"
+          class="table-detail-row pointer"
+        ></tr>
+      </table>
+  
+      <!-- <table class="f6 w-100 mw8 center" cellspacing="0">
+        <thead>
+          <tr>
+            <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Name</th>
+            <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Email</th>
+            <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">City</th>
+            <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">State</th>
+            <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Phone</th>
+            <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Created</th>
+            <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="lh-copy">
+          <tr *ngFor="let user of users">
+            <td class="pv3 pr3 bb b--black-20">{{user.name}}</td>
+            <td class="pv3 pr3 bb b--black-20">{{user.email}}</td>
+            <td class="pv3 pr3 bb b--black-20">{{user.city}}</td>
+            <td class="pv3 pr3 bb b--black-20">{{user.state}}</td>
+            <td class="pv3 pr3 bb b--black-20">{{user.phone}}</td>
+            <td class="pv3 pr3 bb b--black-20">{{user.created | date: 'dd/MM/YY  hh:mm a'}}</td>
+            <td class="pv3 pr3 bb b--black-20">
+              <button routerLink="create-user/" mat-icon-button aria-label="Add User">
+                <mat-icon>add</mat-icon>
+              </button>
+              <button routerLink="edit-user/{{user.id}}" mat-icon-button aria-label="Edit User">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button aria-label="Delete User">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table> -->
+    </div>
+  </div>

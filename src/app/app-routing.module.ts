@@ -14,7 +14,6 @@ import { EditSpaceComponent } from './edit-space/edit-space.component';
 import { BookParkingComponent } from './book-parking/book-parking.component';
 import { AuthGuard } from './_helpers/auth.guard';
 import { ReceiptComponent } from './receipt/receipt.component';
-// import { ParkingmanagerComponent } from './parkingmanager/parkingmanager.component';
 
 const adminModule = () =>
   import('src/app/admin/admin.module').then((x) => x.AdminModule);
@@ -22,6 +21,11 @@ const adminModule = () =>
 const parkingManagerModule = () =>
   import('src/app/parking-manager/parking-manager.module').then(
     (x) => x.ParkingManagerModule
+  );
+
+const allocationManagerModule = () =>
+  import('src/app/allocation-manager/allocation-manager.module').then(
+    (x) => x.AllocationManagerModule
   );
 
 const routes: Routes = [
@@ -147,11 +151,19 @@ const routes: Routes = [
   },
   {
     path: 'parkingmanager',
-    // canActivate: [AuthGuard],
-    // data: {
-    //   roles: ['Admin']
-    // },
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['ParkingManager']
+    },
     loadChildren: parkingManagerModule
+  },
+  {
+    path: 'allocationmanager',
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['AllocationManager']
+    },
+    loadChildren: allocationManagerModule
   }
   // { path: '**', redirectTo: '' }
 ];

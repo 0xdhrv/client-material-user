@@ -85,13 +85,13 @@ export class ParkingComponent implements OnInit {
       .subscribe((parkingManager) => {
         this.parkingManager = parkingManager;
         this.garageService
-          .getById(this.parkingManager.garageId)
+          .getById(this.parkingManager && this.parkingManager.garageId)
           .subscribe((garage) => {
             this.garage = garage;
           });
 
         this.parkingService
-          .getByGarage(this.parkingManager.garageId)
+          .getByGarage(this.parkingManager && this.parkingManager.garageId)
           .subscribe((parkings) => {
             this.parkings = parkings;
             this.parkingSource = new MatTableDataSource<Parking>(parkings);

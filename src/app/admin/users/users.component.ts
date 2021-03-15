@@ -12,7 +12,7 @@ import {
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatSnackBar } from '@angular/material/snack-bar';
-// import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-users',
@@ -44,7 +44,7 @@ export class UsersComponent implements OnInit {
   ];
   value = '';
 
-  // @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
@@ -74,7 +74,6 @@ export class UsersComponent implements OnInit {
             });
             this.userSource = new MatTableDataSource<User>(this.filteredUsers);
 
-            // this.userSource.paginator = this.paginator;
             this.userSource.sort = this.sort;
           });
           this._snackBar.open('✓ Deleted', '', {
@@ -100,11 +99,13 @@ export class UsersComponent implements OnInit {
         return user.role != 'Admin';
       });
       this.userSource = new MatTableDataSource<User>(this.filteredUsers);
-
-      // this.userSource.paginator = this.paginator;
+      this.userSource.paginator = this.paginator;
       this.userSource.sort = this.sort;
     });
   }
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    this.userSource.paginator = this.paginator;
+    this.userSource.sort = this.sort;
+  }
 }
