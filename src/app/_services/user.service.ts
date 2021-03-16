@@ -82,10 +82,22 @@ export class UserService {
     );
   }
 
+  getAllParkingManagers(): Observable<ParkingManager[]> {
+    return this.http.GetAll<ParkingManager[]>(
+      `${environment.apiUrl}/users/parkingmanagers`
+    )
+  }
+
   getAllocationManager(id: number): Observable<AllocationManager> {
     return this.http.Get<AllocationManager>(
       `${environment.apiUrl}/users/allocationmanagers`,
       id
     );
+  }
+
+  getAllAllocationManager(): Observable<AllocationManager[]> {
+    return this.http.GetAll<AllocationManager[]>(
+      `${environment.apiUrl}/users/allocationmanagers`
+    )
   }
 }
