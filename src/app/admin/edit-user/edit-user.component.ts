@@ -25,7 +25,7 @@ export class EditUserComponent implements OnInit {
     'Bihar',
     'Chhattisgarh',
     'Goa',
-    'Gujarat',
+    'State',
     'Haryana',
     'Himachal Pradesh',
     'Jharkhand',
@@ -61,7 +61,6 @@ export class EditUserComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
     this.user = this.userService.userValue;
-    console.log(this.user);
     this.editUserForm = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -102,22 +101,21 @@ export class EditUserComponent implements OnInit {
 
   hide = true;
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   get f() {
     return this.editUserForm.controls;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
 
     if (this.editUserForm.invalid) {
       return;
     }
 
-    alert(JSON.stringify(this.editUserForm.value));
-
     this.userService.update(this.editUserForm.value, this.id).subscribe(
       () => {
-        this._snackBar.open('✓ Edited', '', {
+        this._snackBar.open('✓ Edited User', '', {
           duration: 1500,
           horizontalPosition: 'right',
           verticalPosition: 'bottom'
@@ -131,7 +129,6 @@ export class EditUserComponent implements OnInit {
           verticalPosition: 'bottom'
         });
         this.onReset();
-        console.log(error);
       }
     );
   }

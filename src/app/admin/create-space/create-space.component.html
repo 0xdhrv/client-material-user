@@ -10,11 +10,7 @@
         <div class="mt2">
           <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Name</mat-label>
-            <input
-              formControlName="name"
-              matInput
-              placeholder=""
-            />
+            <input formControlName="name" matInput placeholder="" />
             <mat-error *ngIf="f.name.hasError('required')">
               Required
             </mat-error>
@@ -46,11 +42,7 @@
         <div class="mt2">
           <mat-form-field class="w-100" appearance="legacy">
             <mat-label>State</mat-label>
-            <input
-              formControlName="state"
-              matInput
-              placeholder="John Doe"
-            />
+            <input formControlName="state" matInput placeholder="John Doe" />
             <mat-error *ngIf="f.state.hasError('required')">
               Required
             </mat-error>
@@ -83,11 +75,7 @@
         <div class="mt2">
           <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Parking Rate</mat-label>
-            <input
-              formControlName="parkingRate"
-              matInput
-              placeholder="100"
-            />
+            <input formControlName="parkingRate" matInput placeholder="100" />
             <span matPrefix class="ph2">₹</span>
             <mat-error *ngIf="f.parkingRate.hasError('required')">
               Required
@@ -112,11 +100,7 @@
         <div class="mt2" *ngIf="hasCleaningServiceFlag">
           <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Cleaning Rate</mat-label>
-            <input
-              formControlName="cleaningRate"
-              matInput
-              placeholder="100"
-            />
+            <input formControlName="cleaningRate" matInput placeholder="100" />
             <span matPrefix class="ph2">₹</span>
             <mat-error
               *ngIf="f.cleaningRate && f.cleaningRate.hasError('required')"
@@ -132,7 +116,14 @@
         </div>
       </fieldset>
       <div class="mv2">
-        <button class="w-100" mat-stroked-button color="primary" [disabled]="!createGarageForm.valid">Create</button>
+        <button
+          class="w-100"
+          mat-stroked-button
+          color="primary"
+          [disabled]="!createGarageForm.valid"
+        >
+          Create
+        </button>
       </div>
     </form>
   </main>

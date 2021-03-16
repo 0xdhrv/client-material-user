@@ -24,6 +24,10 @@ import { ErrorInterceptor } from 'src/app/_helpers/error.interceptor';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { CreateSpaceComponent } from './create-space/create-space.component';
+import { EditSpaceComponent } from './edit-space/edit-space.component';
+import { CreateGarageComponent } from './create-garage/create-garage.component';
+import { EditGarageComponent } from './edit-garage/edit-garage.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +38,11 @@ import { CreateUserComponent } from './create-user/create-user.component';
     ParkingHistoriesComponent,
     HomeComponent,
     EditUserComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    CreateSpaceComponent,
+    EditSpaceComponent,
+    CreateGarageComponent,
+    EditGarageComponent
   ],
   imports: [
     CommonModule,

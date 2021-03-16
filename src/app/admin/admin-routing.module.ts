@@ -1,14 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { UsersComponent } from './users/users.component';
-import { SpacesComponent } from './spaces/spaces.component';
-import { GaragesComponent } from './garages/garages.component';
-import { ParkingsComponent } from './parkings/parkings.component';
-import { ParkingHistoriesComponent } from './parking-histories/parking-histories.component';
-import { HomeComponent } from './home/home.component';
+import { UsersComponent } from 'src/app/admin/users/users.component';
+import { SpacesComponent } from 'src/app/admin/spaces/spaces.component';
+import { GaragesComponent } from 'src/app/admin/garages/garages.component';
+import { ParkingsComponent } from 'src/app/admin/parkings/parkings.component';
+import { ParkingHistoriesComponent } from 'src/app/admin/parking-histories/parking-histories.component';
+import { HomeComponent } from 'src/app/admin/home/home.component';
 import { EditUserComponent } from 'src/app/admin/edit-user/edit-user.component';
-import { CreateUserComponent } from './create-user/create-user.component';
+import { CreateUserComponent } from 'src/app/admin/create-user/create-user.component';
+import { CreateGarageComponent } from 'src/app/admin/create-garage/create-garage.component';
+import { EditGarageComponent } from 'src/app/admin/edit-garage/edit-garage.component';
+import { CreateSpaceComponent } from 'src/app/admin/create-space/create-space.component';
+import { EditSpaceComponent } from 'src/app/admin/edit-space/edit-space.component';
 
 // import { AuthGuard } from 'src/app/_helpers/auth.guard';
 
@@ -54,10 +58,38 @@ const routes: Routes = [
     }
   },
   {
+    path: 'create-garage',
+    component: CreateGarageComponent,
+    data: {
+      title: 'Admin > Create Garage'
+    }
+  },
+  {
+    path: 'edit-garage/:id',
+    component: EditGarageComponent,
+    data: {
+      title: 'Admin > Edit Garage'
+    }
+  },
+  {
     path: 'spaces',
     component: SpacesComponent,
     data: {
       title: 'Admin > Space'
+    }
+  },
+  {
+    path: 'create-space',
+    component: CreateSpaceComponent,
+    data: {
+      title: 'Admin > Create Space'
+    }
+  },
+  {
+    path: 'edit-space/:id',
+    component: EditSpaceComponent,
+    data: {
+      title: 'Admin > Edit Space'
     }
   },
   {

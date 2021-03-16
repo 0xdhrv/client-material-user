@@ -24,6 +24,10 @@
   }
 }
 
+.mono {
+  font-family: 'Roboto Mono', monospace;
+}
+
 div {
   font-optical-sizing: true;
 }

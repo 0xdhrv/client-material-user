@@ -50,7 +50,7 @@
                 <div class="mt2">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Email</mat-label>
-                        <input formControlName="email" matInput type="email" placeholder="john.doe@email.com" />
+                        <input formControlName="email" matInput type="email" placeholder="Email" />
                         <mat-error *ngIf="f.email.hasError('required')">
                             Required
                         </mat-error>
@@ -62,7 +62,7 @@
                 <div class="mt2">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Address</mat-label>
-                        <textarea formControlName="address" matInput placeholder="25, Jordan Street"></textarea>
+                        <textarea formControlName="address" matInput placeholder="Address"></textarea>
                         <mat-error *ngIf="f.address.hasError('required')">
                             Required
                         </mat-error>
@@ -89,7 +89,7 @@
                 <div class="mt2">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Phone</mat-label>
-                        <input formControlName="phone" type="tel" matInput placeholder="98765 43210" />
+                        <input formControlName="phone" type="tel" matInput placeholder="Phone" />
                         <mat-error *ngIf="f.phone.hasError('required')">
                             Required
                         </mat-error>

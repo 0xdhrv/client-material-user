@@ -1,6 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UserService } from 'src/app/_services/user.service';
-import { User } from 'src/app/_models/user';
 import {
   animate,
   state,
@@ -37,13 +35,12 @@ export class GaragesComponent implements OnInit {
   expandedElement: Garage | null;
   garageColumnsToDisplay = [
     'name',
-    'address',
-    'state',
     'hasCleaning',
     'cleaningRate',
-    'totalCapacity',
+    'parkingRate',
     'occupiedCapacity',
-    'parkingRate'
+    'totalCapacity',
+    'actions'
   ];
   value = '';
 
@@ -83,7 +80,7 @@ export class GaragesComponent implements OnInit {
           });
         },
         (error) => {
-          this._snackBar.open(`✗ Error ${error.error.message}`, '', {
+          this._snackBar.open(`✗ Error ${error}`, '', {
             duration: 1500,
             horizontalPosition: 'right',
             verticalPosition: 'bottom'

@@ -33,7 +33,7 @@ export class CreateUserComponent implements OnInit {
     'Bihar',
     'Chhattisgarh',
     'Goa',
-    'Gujarat',
+    'State',
     'Haryana',
     'Himachal Pradesh',
     'Jharkhand',
@@ -118,8 +118,6 @@ export class CreateUserComponent implements OnInit {
       return;
     }
 
-    alert(JSON.stringify(this.createUserForm.value));
-
     this.userService
       .register(this.createUserForm.value)
       .pipe(first())
@@ -130,7 +128,6 @@ export class CreateUserComponent implements OnInit {
             horizontalPosition: 'right',
             verticalPosition: 'top'
           });
-          console.log('User Registration Success');
           this.router.navigate(['/admin']);
         },
         (error) => {
@@ -140,7 +137,6 @@ export class CreateUserComponent implements OnInit {
             verticalPosition: 'top'
           });
           this.onReset();
-          console.log(error);
         }
       );
   }
