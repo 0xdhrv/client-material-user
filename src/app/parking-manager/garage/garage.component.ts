@@ -94,7 +94,6 @@ export class GarageComponent implements OnInit {
           (parkings) => {
             this.parkings = parkings;
             this.parkingSource = new MatTableDataSource<Parking>(parkings);
-            console.log(this.parkingColumnsToDisplay.length);
           },
           (error) => {
             console.log(error);

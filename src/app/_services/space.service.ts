@@ -32,6 +32,12 @@ export class SpaceService {
     );
   }
 
+  getByAllocationManager(id: number): Observable<Space[]> {
+    return this.http.GetAll<Space[]>(
+      `${environment.apiUrl}/spaces/byallocationmanager/${id}`
+    );
+  }
+
   getById(id: number): Observable<Space> {
     return this.http.Get<Space>(`${environment.apiUrl}/spaces`, id);
   }

@@ -59,4 +59,28 @@ export class ParkingService {
       `${environment.apiUrl}/parkings/history/garage/${id}`
     );
   }
+
+  getBySpace(id: number): Observable<Parking[]> {
+    return this.http.GetAll<Parking[]>(
+      `${environment.apiUrl}/parkings/space/${id}`
+    );
+  }
+
+  getHistoryBySpace(id: number): Observable<ParkingHistory[]> {
+    return this.http.GetAll<ParkingHistory[]>(
+      `${environment.apiUrl}/parkings/history/space/${id}`
+    );
+  }
+
+  getByAllocationManager(id: number): Observable<Parking[]> {
+    return this.http.GetAll<Parking[]>(
+      `${environment.apiUrl}/parkings/allocationmanager/${id}`
+    );
+  }
+
+  getHistoryByAllocationManager(id: number): Observable<ParkingHistory[]> {
+    return this.http.GetAll<ParkingHistory[]>(
+      `${environment.apiUrl}/parkings/history/allocationmanager/${id}`
+    );
+  }
 }
