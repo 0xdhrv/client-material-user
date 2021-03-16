@@ -21,6 +21,7 @@ export class AppComponent {
   user: User;
   userInfo: User;
   isGuest: boolean;
+  title: string;
 
   ngOnInit(): void {
     // Logging Out User if inactive for 30 Minutes
@@ -78,6 +79,7 @@ export class AppComponent {
             if (child.firstChild) {
               child = child.firstChild;
             } else if (child.snapshot.data && child.snapshot.data['title']) {
+              this.title = child.snapshot.data['title'];
               return child.snapshot.data['title'];
             } else {
               return null;

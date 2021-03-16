@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
           this._snackBar.open('✓ Logged In', '', {
             duration: 1500,
             horizontalPosition: 'right',
-            verticalPosition: 'top'
+            verticalPosition: 'bottom'
           });
           this.user = user;
           if (this.user.role == 'Admin') {

@@ -20,6 +20,7 @@ import {
   animate
 } from '@angular/animations';
 import { AllocationManager } from 'src/app/_models/allocationManager';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-parking',
@@ -48,21 +49,78 @@ export class ParkingComponent implements OnInit {
   parkingSource: MatTableDataSource<Parking>;
   spaceSource: MatTableDataSource<Space>;
   expandedElement: Parking | null;
-  parkingColumnsToDisplay = [
-    'vehicleNumber',
-    'driverName',
-    'isActive',
-    'spaceCode'
-  ];
+  parkingColumnsToDisplay = ['vehicleNumber', 'driverName', 'actions'];
 
   constructor(
     private userService: UserService,
     private garageService: GarageService,
     private spaceService: SpaceService,
     private parkingService: ParkingService,
+    private _snackBar: MatSnackBar,
     private router: Router
   ) {
     this.parkingSource = new MatTableDataSource();
+  }
+
+  checkIn(id: number): void {
+    console.log(id);
+    this.parkingService
+      .systemCheckin(id)
+      .pipe()
+      .subscribe(
+        () => {
+          this._snackBar.open('✓ User Checked In', '', {
+            duration: 1500,
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom'
+          });
+          this.parkingService
+            .getByAllocationManager(this.allocationManager.id)
+            .subscribe((parkings) => {
+              this.parkings = parkings;
+              this.parkingSource = new MatTableDataSource<Parking>(
+                this.parkings
+              );
+              console.log(
+                '🚀 ~ file: parking.component.ts ~ line 96 ~ ParkingComponent ~ .subscribe ~ parkings',
+                parkings
+              );
+            });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  checkOut(id: number): void {
+    this.parkingService
+      .systemCheckout(id)
+      .pipe()
+      .subscribe(
+        () => {
+          this._snackBar.open('✓ User Checked Out', '', {
+            duration: 1500,
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom'
+          });
+          this.parkingService
+            .getByAllocationManager(this.allocationManager.id)
+            .subscribe((parkings) => {
+              this.parkings = parkings;
+              this.parkingSource = new MatTableDataSource<Parking>(
+                this.parkings
+              );
+              console.log(
+                '🚀 ~ file: parking.component.ts ~ line 96 ~ ParkingComponent ~ .subscribe ~ parkings',
+                parkings
+              );
+            });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   ngOnInit(): void {
@@ -83,6 +141,7 @@ export class ParkingComponent implements OnInit {
       .getAllocationManager(this.user.id)
       .subscribe((allocationManager) => {
         this.allocationManager = allocationManager;
+        console.log(this.allocationManager.id);
         this.spaceService
           .getByAllocationManager(this.allocationManager.id)
           .subscribe((spaces) => {
@@ -93,6 +152,11 @@ export class ParkingComponent implements OnInit {
           .getByAllocationManager(this.allocationManager.id)
           .subscribe((parkings) => {
             this.parkings = parkings;
+            this.parkingSource = new MatTableDataSource<Parking>(this.parkings);
+            console.log(
+              '🚀 ~ file: parking.component.ts ~ line 96 ~ ParkingComponent ~ .subscribe ~ parkings',
+              parkings
+            );
           });
       });
   }

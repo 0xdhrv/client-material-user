@@ -29,7 +29,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'edit-space',
+    path: 'edit-space/:id',
     component: EditSpaceComponent,
     data: {
       title: 'Allocation Manager  > Edit Space'

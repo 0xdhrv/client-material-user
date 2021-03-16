@@ -38,6 +38,20 @@ export class ParkingService {
     return this.http.Post<Parking>(`${environment.apiUrl}/parkings/checkout`);
   }
 
+  systemCheckin(userId: number): Observable<Parking> {
+    return this.http.Post<Parking>(
+      `${environment.apiUrl}/parkings/system/checkin`,
+      { userId }
+    );
+  }
+
+  systemCheckout(userId: number): Observable<Parking> {
+    return this.http.Post<Parking>(
+      `${environment.apiUrl}/parkings/system/checkout`,
+      { userId }
+    );
+  }
+
   receipt(): Observable<ParkingHistory> {
     return this.http.OnlyGet<ParkingHistory>(
       `${environment.apiUrl}/parkings/receipt`

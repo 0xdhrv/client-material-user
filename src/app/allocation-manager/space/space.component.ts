@@ -46,7 +46,12 @@ export class SpaceComponent implements OnInit {
   userInfo: User;
   spaceSource: MatTableDataSource<Space>;
   expandedElement: Space | null;
-  spaceColumnsToDisplay = ['code', 'totalCapacity', 'occupiedCapacity'];
+  spaceColumnsToDisplay = [
+    'code',
+    'occupiedCapacity',
+    'totalCapacity',
+    'actions'
+  ];
 
   constructor(
     private userService: UserService,

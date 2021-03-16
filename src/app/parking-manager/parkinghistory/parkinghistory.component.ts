@@ -9,7 +9,6 @@ import { User } from 'src/app/_models/user';
 import { Space } from 'src/app/_models/space';
 import { Garage } from 'src/app/_models/garage';
 import { ParkingManager } from 'src/app/_models/parkingManager';
-import { Parking } from 'src/app/_models/parking';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import {
@@ -95,7 +94,6 @@ export class ParkinghistoryComponent implements OnInit {
           .getHistoryByGarage(this.parkingManager.garageId)
           .subscribe((parkingHistories) => {
             this.parkingHistories = parkingHistories;
-            console.log(this.parkingHistories[0].parkingCost);
             this.parkingHistorySource = new MatTableDataSource<ParkingHistory>(
               parkingHistories
             );
