@@ -61,9 +61,7 @@
               "
               [ngClass]="{
                 'bg-lightest-blue':
-                  garage && garage.id == selectedGarageId && selectedGarage
-              }"
-              [ngClass]="{
+                  garage && garage.id == selectedGarageId && selectedGarage,
                 'bg-washed-red':
                   garage && garage.totalCapacity == garage.occupiedCapacity
               }"

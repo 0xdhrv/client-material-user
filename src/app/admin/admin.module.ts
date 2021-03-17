@@ -28,6 +28,7 @@ import { CreateSpaceComponent } from './create-space/create-space.component';
 import { EditSpaceComponent } from './edit-space/edit-space.component';
 import { CreateGarageComponent } from './create-garage/create-garage.component';
 import { EditGarageComponent } from './edit-garage/edit-garage.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [

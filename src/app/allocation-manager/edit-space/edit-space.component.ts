@@ -77,7 +77,7 @@ export class EditSpaceComponent implements OnInit {
             horizontalPosition: 'right',
             verticalPosition: 'bottom'
           });
-          this.router.navigate(['/allocationmanager']);
+          this.router.navigate(['/allocationanager']);
         },
         (error) => {
           this._snackBar.open(`✗ Error ${error.error.message}`, '', {

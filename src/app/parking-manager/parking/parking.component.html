@@ -80,13 +80,11 @@
 
               <div class="lh-copy pv1 db" *ngIf="parking && parking.isActive">
                 UserCheckIn :
-                {{ parking && parking.userCheckIn | date: 'dd/MM/YY  hh:mm a' }}
-              </div>
-              <div class="lh-copy pv1 db" *ngIf="parking && parking.isActive">
-                UserCheckOut :
-                {{
-                  parking && parking.userCheckOut | date: 'dd/MM/YY  hh:mm a'
-                }}
+                <span class="mono b">
+                  {{
+                    parking && parking.userCheckIn | date: 'dd/MM/YY  hh:mm a'
+                  }}
+                </span>
               </div>
             </div>
           </td>

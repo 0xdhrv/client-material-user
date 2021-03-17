@@ -97,4 +97,14 @@ export class ParkingService {
       `${environment.apiUrl}/parkings/history/allocationmanager/${id}`
     );
   }
+
+  getAll(): Observable<Parking[]> {
+    return this.http.GetAll<Parking[]>(`${environment.apiUrl}/parkings/`);
+  }
+
+  getAllParkingHistory(): Observable<ParkingHistory[]> {
+    return this.http.GetAll<ParkingHistory[]>(
+      `${environment.apiUrl}/parkings/history/`
+    );
+  }
 }

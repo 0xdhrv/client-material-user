@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { UserService } from 'src/app/_services/user.service';
 import { GarageService } from 'src/app/_services/garage.service';
@@ -18,6 +18,7 @@ import {
   transition,
   animate
 } from '@angular/animations';
+import { MatSort } from '@angular/material/sort';
 @Component({
   selector: 'app-parkinghistory',
   templateUrl: './parkinghistory.component.html',
@@ -48,9 +49,13 @@ export class ParkinghistoryComponent implements OnInit {
   parkingHistoryColumnsToDisplay = [
     'vehicleNumber',
     'driverName',
-    'isActive',
-    'spaceCode'
+    'spaceCode',
+    'cost',
+    'interval'
   ];
+
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(
     private userService: UserService,
     private garageService: GarageService,
@@ -58,7 +63,16 @@ export class ParkinghistoryComponent implements OnInit {
     private parkingService: ParkingService,
     private router: Router
   ) {
-    this.parkingHistorySource = new MatTableDataSource();
+    // this.parkingHistorySource = new MatTableDataSource();
+  }
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.parkingHistorySource.filter = filterValue.trim().toLowerCase();
+
+    if (this.parkingHistorySource.paginator) {
+      this.parkingHistorySource.paginator.firstPage();
+    }
   }
 
   ngOnInit(): void {
@@ -87,6 +101,8 @@ export class ParkinghistoryComponent implements OnInit {
             this.parkingHistorySource = new MatTableDataSource<ParkingHistory>(
               parkingHistories
             );
+
+            this.parkingHistorySource.sort = this.sort;
 
             for (let i = 0; i < parkingHistories.length; i++) {
               this.spaceService

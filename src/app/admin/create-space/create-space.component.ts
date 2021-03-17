@@ -92,7 +92,7 @@ export class CreateSpaceComponent implements OnInit {
             horizontalPosition: 'right',
             verticalPosition: 'bottom'
           });
-          // this.router.navigate(['/allocationmanager/']);
+          this.router.navigate(['/admin']);
         },
         (error) => {
           this._snackBar.open(`✗ Error ${error}`, '', {
@@ -108,6 +108,6 @@ export class CreateSpaceComponent implements OnInit {
 
   onReset() {
     this.submitted = false;
-    // this.createSpaceForm.reset();
+    this.createSpaceForm.reset();
   }
 }
