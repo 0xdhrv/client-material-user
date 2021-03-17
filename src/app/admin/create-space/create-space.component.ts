@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
@@ -8,10 +7,21 @@ import {
   Validators,
   FormControl
 } from '@angular/forms';
+import { first } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { GarageService } from 'src/app/_services/garage.service';
+import { UserService } from 'src/app/_services/user.service';
+import { SpaceService } from 'src/app/_services/space.service';
 import { Router } from '@angular/router';
+import { GarageService } from 'src/app/_services/garage.service';
+import { User } from 'src/app/_models/user';
+import { Garage } from 'src/app/_models/garage';
+import { AllocationManager } from 'src/app/_models/allocationManager';
+
+interface garageId {
+  value: string;
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-create-space',
@@ -19,92 +29,85 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-space.component.css']
 })
 export class CreateSpaceComponent implements OnInit {
-  createGarageForm: FormGroup;
+  user: User;
+  garages: Garage[];
+  createSpaceForm: FormGroup;
   submitted = false;
-  hasCleaningServiceFlag: boolean;
+  selected = 0;
+  allocationManagers: AllocationManager[];
 
   constructor(
     private formBuilder: FormBuilder,
+    private userService: UserService,
     private garageService: GarageService,
+    private spaceService: SpaceService,
     private _snackBar: MatSnackBar,
-    private router: Router,
-    private cdRef: ChangeDetectorRef
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.createGarageForm = this.formBuilder.group({
-      name: this.formBuilder.control('', [Validators.required]),
-      address: this.formBuilder.control('', [Validators.required]),
-      city: this.formBuilder.control('', [Validators.required]),
-      state: this.formBuilder.control('', [Validators.required]),
-      phone: this.formBuilder.control('', [
-        Validators.required,
-        Validators.pattern(/^[0-9]*$/),
-        Validators.minLength(10),
-        Validators.maxLength(10)
-      ]),
-      parkingRate: this.formBuilder.control('', [
+    this.createSpaceForm = this.formBuilder.group({
+      code: this.formBuilder.control('', [Validators.required]),
+      totalCapacity: this.formBuilder.control('', [
         Validators.required,
         Validators.pattern(/^[0-9]*$/)
       ]),
-      hasCleaningService: this.formBuilder.control('', [Validators.required])
+      garageId: this.formBuilder.control('', [Validators.required]),
+      allocationManagerId: this.formBuilder.control('', [Validators.required])
     });
 
-    this.createGarageForm.controls['hasCleaningService'].setValue(false);
-    this.createGarageForm.addControl('cleaningRate', new FormControl());
-    this.createGarageForm.controls['cleaningRate'].setValue('0');
+    this.userService.user.subscribe((user) => {
+      this.user = user;
+    });
+
+    this.userService
+      .getAllAllocationManager()
+      .subscribe((allocationManagers) => {
+        this.allocationManagers = allocationManagers;
+      });
+
+    this.garageService.getAll().subscribe((data) => {
+      this.garages = data;
+      console.log(data);
+    });
   }
 
   get f() {
-    return this.createGarageForm.controls;
+    return this.createSpaceForm.controls;
   }
 
-  updateCleaningRate(event: any): void {
-    this.hasCleaningServiceFlag = event.checked;
-    if (event.checked) {
-      // this.createGarageForm.addControl('cleaningRate', new FormControl());
-      this.createGarageForm.controls['cleaningRate'].reset();
-      this.createGarageForm.controls['cleaningRate'].setValidators([
-        Validators.required,
-        Validators.pattern(/^[0-9]*$/)
-      ]);
-    } else {
-      this.createGarageForm.controls['cleaningRate'].setValue('0');
-      // this.createGarageForm.removeControl('cleaningRate');
-    }
-  }
-
-  onSubmit(): void {
+  onSubmit() {
     this.submitted = true;
 
-    alert(JSON.stringify(this.createGarageForm.value));
+    alert(JSON.stringify(this.createSpaceForm.value));
+    console.log(JSON.stringify(this.createSpaceForm.value));
 
-    this.garageService.create(this.createGarageForm.value).subscribe(
-      () => {
-        this._snackBar.open(`✓ Garage Created`, '', {
-          duration: 1500,
-          horizontalPosition: 'right',
-          verticalPosition: 'bottom'
-        });
-        this.router.navigate(['']);
-      },
-      (error) => {
-        this._snackBar.open(`✗ Error ${error}`, '', {
-          duration: 1500,
-          horizontalPosition: 'right',
-          verticalPosition: 'bottom'
-        });
-        this.onReset();
-      }
-    );
+    this.spaceService
+      .create(this.createSpaceForm.value)
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          this._snackBar.open(`✓ Space Created`, '', {
+            duration: 1500,
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom'
+          });
+          // this.router.navigate(['/allocationmanager/']);
+        },
+        (error) => {
+          this._snackBar.open(`✗ Error ${error}`, '', {
+            duration: 1500,
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom'
+          });
+          this.onReset();
+          console.log(error);
+        }
+      );
   }
 
-  onReset(): void {
+  onReset() {
     this.submitted = false;
-    // this.createGarageForm.reset();
-  }
-
-  ngAfterViewChecked(): void {
-    this.cdRef.detectChanges();
+    // this.createSpaceForm.reset();
   }
 }

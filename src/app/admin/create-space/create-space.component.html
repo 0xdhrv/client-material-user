@@ -2,16 +2,16 @@
   <main class="pa4 black-80 spacer">
     <form
       class="measure center mt4 pt4"
-      [formGroup]="createGarageForm"
+      [formGroup]="createSpaceForm"
       (ngSubmit)="onSubmit()"
     >
       <fieldset id="create_garage" class="ba b--transparent black ph0 mh0">
-        <legend class="f4 fw4 ph0 mh0">Create Garage</legend>
+        <legend class="f4 fw6 ph0 mh0">Create Space</legend>
         <div class="mt2">
           <mat-form-field class="w-100" appearance="legacy">
-            <mat-label>Name</mat-label>
-            <input formControlName="name" matInput placeholder="" />
-            <mat-error *ngIf="f.name.hasError('required')">
+            <mat-label>Code</mat-label>
+            <input formControlName="code" matInput placeholder="A100" />
+            <mat-error *ngIf="f.code.hasError('required')">
               Required
             </mat-error>
           </mat-form-field>
@@ -19,108 +19,48 @@
 
         <div class="mt2">
           <mat-form-field class="w-100" appearance="legacy">
-            <mat-label>Address</mat-label>
-            <textarea
-              formControlName="address"
-              matInput
-              placeholder="Address"
-            ></textarea>
-            <mat-error *ngIf="f.address.hasError('required')">
+            <mat-label>Total Capacity</mat-label>
+            <input formControlName="totalCapacity" matInput placeholder="25" />
+            <mat-error *ngIf="f.totalCapacity.hasError('required')">
               Required
             </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="mt2">
-          <mat-form-field class="w-100" appearance="legacy">
-            <mat-label>City</mat-label>
-            <input formControlName="city" matInput placeholder="John Doe" />
-            <mat-error *ngIf="f.city.hasError('required')">
-              Required
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="mt2">
-          <mat-form-field class="w-100" appearance="legacy">
-            <mat-label>State</mat-label>
-            <input formControlName="state" matInput placeholder="John Doe" />
-            <mat-error *ngIf="f.state.hasError('required')">
-              Required
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="mt2">
-          <mat-form-field class="w-100" appearance="legacy">
-            <mat-label>Phone</mat-label>
-            <input
-              formControlName="phone"
-              type="text"
-              matInput
-              placeholder="Phone"
-            />
-            <mat-error *ngIf="f.phone.hasError('required')">
-              Required
-            </mat-error>
-            <mat-error
-              *ngIf="
-                f.phone.hasError('minlength') ||
-                f.phone.hasError('maxlength') ||
-                f.phone.hasError('pattern')
-              "
-            >
-              Invalid Phone Number
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-        <div class="mt2">
-          <mat-form-field class="w-100" appearance="legacy">
-            <mat-label>Parking Rate</mat-label>
-            <input formControlName="parkingRate" matInput placeholder="100" />
-            <span matPrefix class="ph2">₹</span>
-            <mat-error *ngIf="f.parkingRate.hasError('required')">
-              Required
-            </mat-error>
-            <mat-error *ngIf="f.parkingRate.hasError('pattern')">
+            <mat-error *ngIf="f.totalCapacity.hasError('pattern')">
               Enter a Number
             </mat-error>
           </mat-form-field>
         </div>
 
-        <div class="mv4">
-          <mat-checkbox
-            labelPosition="after"
-            color="primary"
-            formControlName="hasCleaningService"
-            name="hasCleaningService"
-            (change)="updateCleaningRate($event)"
-            >Cleaning Service</mat-checkbox
-          >
-        </div>
-
-        <div class="mt2" *ngIf="hasCleaningServiceFlag">
+        <div class="mt2">
           <mat-form-field class="w-100" appearance="legacy">
-            <mat-label>Cleaning Rate</mat-label>
-            <input formControlName="cleaningRate" matInput placeholder="100" />
-            <span matPrefix class="ph2">₹</span>
-            <mat-error
-              *ngIf="f.cleaningRate && f.cleaningRate.hasError('required')"
-            >
-              Required
-            </mat-error>
-            <mat-error
-              *ngIf="f.cleaningRate && f.cleaningRate.hasError('pattern')"
-            >
-              Enter a Number
-            </mat-error>
+            <mat-label>Garage</mat-label>
+            <mat-select formControlName="garageId">
+              <mat-option *ngFor="let garage of garages" [value]="garage.id">
+                {{ garage.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="f.garageId.hasError('required')"> Required </mat-error>
           </mat-form-field>
         </div>
+
+        <div class="mt2">
+          <mat-form-field class="w-100" appearance="legacy">
+            <mat-label>Allocation Manager</mat-label>
+            <mat-select formControlName="allocationManagerId">
+              <mat-option *ngFor="let allocationManager of allocationManagers" [value]="allocationManager.id">
+                {{ allocationManager.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="f.allocationManagerId.hasError('required')"> Required </mat-error>
+          </mat-form-field>
+        </div>
+
       </fieldset>
       <div class="mv2">
         <button
           class="w-100"
           mat-stroked-button
           color="primary"
-          [disabled]="!createGarageForm.valid"
+          [disabled]="!createSpaceForm.valid"
         >
           Create
         </button>
