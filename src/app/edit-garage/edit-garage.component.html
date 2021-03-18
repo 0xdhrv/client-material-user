@@ -10,7 +10,7 @@
           width="27"
           height="25"
           viewBox="0 0 27 25"
-          outline="none"
+          legacy="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
@@ -34,9 +34,9 @@
       (ngSubmit)="onSubmit()"
     >
       <fieldset id="create_garage" class="ba b--transparent black ph0 mh0">
-        <legend class="f4 fw6 ph0 mh0">Edit Garage</legend>
+        <legend class="f3 fw5 ph0 mh0 tc georgia">Edit Garage</legend>
         <div class="mt2">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Name</mat-label>
             <input
               formControlName="name"
@@ -50,7 +50,7 @@
         </div>
 
         <div class="mt2">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Address</mat-label>
             <textarea
               formControlName="address"
@@ -63,7 +63,7 @@
           </mat-form-field>
         </div>
         <div class="mt2">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>City</mat-label>
             <input formControlName="city" matInput placeholder="John Doe" />
             <mat-error *ngIf="f.city.hasError('required')">
@@ -72,7 +72,7 @@
           </mat-form-field>
         </div>
         <div class="mt2">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>State</mat-label>
             <input
               formControlName="state"
@@ -85,7 +85,7 @@
           </mat-form-field>
         </div>
         <div class="mt2">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Phone</mat-label>
             <input
               formControlName="phone"
@@ -109,7 +109,7 @@
         </div>
 
         <div class="mt2">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Parking Rate</mat-label>
             <input
               formControlName="parkingRate"
@@ -138,7 +138,7 @@
         </div>
 
         <div class="mt2" *ngIf="hasCleaningServiceFlag">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Cleaning Rate</mat-label>
             <input
               formControlName="cleaningRate"

@@ -28,6 +28,9 @@ const allocationManagerModule = () =>
     (x) => x.AllocationManagerModule
   );
 
+const userModule = () =>
+  import('src/app/user/user.module').then((x) => x.UserModule);
+
 const routes: Routes = [
   // {
   //   path: '',
@@ -132,15 +135,6 @@ const routes: Routes = [
       title: 'Parking Receipt'
     }
   },
-  // {
-  //   path: 'parkingmanager',
-  //   canActivate: [AuthGuard],
-  //   component: ParkingmanagerComponent,
-  //   data: {
-  //     roles: ['ParkingManager'],
-  //     title: 'Parking Manager'
-  //   }
-  // }
   {
     path: 'admin',
     canActivate: [AuthGuard],
@@ -164,8 +158,16 @@ const routes: Routes = [
       roles: ['AllocationManager']
     },
     loadChildren: allocationManagerModule
-  }
-  // { path: '**', redirectTo: '' }
+  },
+  {
+    path: 'user',
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['User']
+    },
+    loadChildren: userModule
+  },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

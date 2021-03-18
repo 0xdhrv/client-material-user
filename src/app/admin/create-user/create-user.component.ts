@@ -126,7 +126,7 @@ export class CreateUserComponent implements OnInit {
           this._snackBar.open('✓ User Created', '', {
             duration: 1500,
             horizontalPosition: 'right',
-            verticalPosition: 'top'
+            verticalPosition: 'bottom'
           });
           this.router.navigate(['/admin']);
         },
@@ -134,7 +134,7 @@ export class CreateUserComponent implements OnInit {
           this._snackBar.open(`✗ Error ${error}`, '', {
             duration: 1500,
             horizontalPosition: 'right',
-            verticalPosition: 'top'
+            verticalPosition: 'bottom'
           });
           this.onReset();
         }

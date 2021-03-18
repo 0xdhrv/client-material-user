@@ -6,10 +6,10 @@
       (ngSubmit)="onSubmit()"
     >
       <fieldset id="sign_up" class="ba b--transparent black ph0 mh0">
-        <legend class="f4 fw6 ph0 mh0">Edit Your Profile</legend>
+        <legend class="f3 fw5 ph0 mh0 tc georgia">Edit Your Profile</legend>
         <!-- <div class=" cf">
                   <div class="fl w-100 w-50-m w-50-l pa1">
-                      <mat-form-field class="w-100" appearance="outline">
+                      <mat-form-field class="w-100" appearance="legacy">
                           <mat-label>First Name</mat-label>
                           <input formControlName="firstName" matInput placeholder="John" />
                           <mat-error *ngIf="f.firstName.hasError('required')">
@@ -18,7 +18,7 @@
                       </mat-form-field>
                   </div>
                   <div class="fl w-100 w-50-m w-50-l pa1">
-                      <mat-form-field class="w-100" appearance="outline">
+                      <mat-form-field class="w-100" appearance="legacy">
                           <mat-label>Last Name</mat-label>
                           <input formControlName="lastName" matInput placeholder="Doe" />
                           <mat-error *ngIf="f.lastName.hasError('required')">
@@ -28,7 +28,7 @@
                   </div>
               </div> -->
         <div class="mt2">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Name</mat-label>
             <input formControlName="name" matInput placeholder="John Doe" />
             <mat-error *ngIf="f.name.hasError('required')">
@@ -37,7 +37,7 @@
           </mat-form-field>
         </div>
         <div class="mt2">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Email</mat-label>
             <input
               formControlName="email"
@@ -54,7 +54,7 @@
           </mat-form-field>
         </div>
         <div class="mt2">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Address</mat-label>
             <textarea
               formControlName="address"
@@ -67,7 +67,7 @@
           </mat-form-field>
         </div>
         <div class="mt2">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>City</mat-label>
             <input formControlName="city" matInput placeholder="City" />
             <mat-error *ngIf="f.city.hasError('required')">
@@ -76,7 +76,7 @@
           </mat-form-field>
         </div>
         <div class="mt2">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>State</mat-label>
             <input formControlName="state" matInput placeholder="New York" />
             <mat-error *ngIf="f.state.hasError('required')">
@@ -85,7 +85,7 @@
           </mat-form-field>
         </div>
         <div class="mt2">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Phone</mat-label>
             <input
               formControlName="phone"
@@ -122,7 +122,7 @@
         </div>
 
         <div class="mt2">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Password</mat-label>
             <input
               formControlName="password"
@@ -142,7 +142,7 @@
           </mat-form-field>
         </div>
         <div class="mt2">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Confirm Password</mat-label>
             <input
               formControlName="confirmPassword"

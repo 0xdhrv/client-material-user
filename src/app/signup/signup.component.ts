@@ -2,13 +2,14 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
+import { first, map, startWith } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { MustMatch } from '../_helpers/must-match.validator';
 
 import { UserService } from '../_services/user.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -18,6 +19,37 @@ import { Router } from '@angular/router';
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   submitted = false;
+  stateOptions: string[] = [
+    'Andhra Pradesh',
+    'Arunachal Pradesh',
+    'Assam',
+    'Bihar',
+    'Chhattisgarh',
+    'Goa',
+    'State',
+    'Haryana',
+    'Himachal Pradesh',
+    'Jharkhand',
+    'Karnataka',
+    'Kerala',
+    'Madhya Pradesh',
+    'Maharashtra',
+    'Manipur',
+    'Meghalaya',
+    'Mizoram',
+    'Nagaland',
+    'Odisha',
+    'Punjab',
+    'Rajasthan',
+    'Sikkim',
+    'Tamil Nadu',
+    'Telangana',
+    'Tripura',
+    'Uttar Pradesh',
+    'Uttarakhand',
+    'West Bengal'
+  ];
+  filteredStateOptions: Observable<string[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -49,6 +81,21 @@ export class SignupComponent implements OnInit {
         validator: MustMatch('password', 'confirmPassword')
       }
     );
+
+    this.filteredStateOptions = this.signupForm.controls[
+      'state'
+    ].valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value))
+    );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.stateOptions.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
   }
 
   hide = true;
@@ -64,26 +111,25 @@ export class SignupComponent implements OnInit {
       return;
     }
 
-    alert(JSON.stringify(this.signupForm.value));
-
     this.userService
       .register(this.signupForm.value)
       .pipe(first())
       .subscribe(
         (data) => {
-          this._snackBar.open('✓ User Signed Up', '', {
+          this._snackBar.open('✓ Signed Up', '', {
             duration: 1500,
             horizontalPosition: 'right',
-            verticalPosition: 'top'
+            verticalPosition: 'bottom',
+            panelClass: 'snackbar-light-purple'
           });
-          console.log('User Registration Success');
           this.router.navigate(['/login']);
         },
         (error) => {
-          this._snackBar.open(`✗ Error ${error.error.message}`, '', {
+          this._snackBar.open(`✗ Error ${error}`, '', {
             duration: 1500,
             horizontalPosition: 'right',
-            verticalPosition: 'top'
+            verticalPosition: 'bottom',
+            panelClass: 'snackbar-light-red'
           });
           this.onReset();
           console.log(error);

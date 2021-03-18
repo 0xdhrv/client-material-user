@@ -58,12 +58,12 @@ export class LoginComponent implements OnInit {
           this._snackBar.open('✓ Logged In', '', {
             duration: 1500,
             horizontalPosition: 'right',
-            verticalPosition: 'bottom'
+            verticalPosition: 'bottom',
+            panelClass: 'snackbar-light-purple'
           });
           this.user = user;
           if (this.user.role == 'Admin') {
             this.router.navigate(['/admin']);
-            // this.router.navigate(['']);
           }
           if (this.user.role == 'ParkingManager') {
             this.router.navigate(['/parkingmanager']);
@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/allocationmanager']);
           }
           if (this.user.role == 'User') {
-            this.router.navigate(['']);
+            this.router.navigate(['/user']);
           }
         },
         (error) => {
@@ -80,7 +80,8 @@ export class LoginComponent implements OnInit {
           this._snackBar.open(`✗ Error ${error}`, '', {
             duration: 1500,
             horizontalPosition: 'right',
-            verticalPosition: 'bottom'
+            verticalPosition: 'bottom',
+            panelClass: 'snackbar-light-red'
           });
           this.onReset();
           console.log(error);

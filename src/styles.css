@@ -112,27 +112,27 @@ input {
   color: #000000 !important;
 }
 
-/* No Outlines */
+/* No legacys */
 
 *,
 *:focus,
 *:hover {
-  outline: none;
+  legacy: none;
 }
 
 input:focus,
 textarea:focus,
 select:focus,
 button:focus {
-  outline: none;
+  legacy: none;
 }
 
 a:focus {
-  outline: none;
+  legacy: none;
 }
 
 a {
-  outline: none !important;
+  legacy: none !important;
 }
 
 /* Selection */
@@ -146,7 +146,7 @@ a {
 /* Checkboxes */
 
 input[type='checkbox'] {
-  outline: 0;
+  legacy: 0;
   vertical-align: middle;
   appearance: none;
   display: inline-block;
@@ -164,7 +164,7 @@ input[type='checkbox'] {
 }
 
 input[type='checkbox']:checked {
-  outline: 0;
+  legacy: 0;
   background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='black' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
   border-color: transparent;
   background-color: currentColor;
@@ -174,12 +174,12 @@ input[type='checkbox']:checked {
 }
 
 html[data-theme='light'] input[type='checkbox']:checked {
-  outline: 0;
+  legacy: 0;
   background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
 }
 
 input[type='checkbox']:focus {
-  outline: 0px !important;
+  legacy: 0px !important;
   -webkit-appearance: none !important;
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
@@ -206,10 +206,20 @@ body {
 /* Angular Material Fixes */
 
 .mat-snack-bar-container {
-  color: #f5f5f5;
-  background: #111;
+  /* color: #f5f5f5; */
+  /* background: #111; */
   box-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%),
     0px 6px 10px 0px rgb(0 0 0 / 14%), 0px 1px 18px 0px rgb(0 0 0 / 12%);
+}
+
+.snackbar-light-purple {
+  color: #f5f5f5;
+  background-color: #a463f2;
+}
+
+.snackbar-light-red {
+  color: #f5f5f5;
+  background-color: #FF725C ;
 }
 
 /* Custom matTooltip */

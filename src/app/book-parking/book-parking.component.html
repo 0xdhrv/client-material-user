@@ -10,7 +10,7 @@
           width="27"
           height="25"
           viewBox="0 0 27 25"
-          outline="none"
+          legacy="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
@@ -29,8 +29,8 @@
 
   <main class="pa4 black-80 spacer">
     <div class="measure center mt4 pt4">
-      <!-- <div class="f4 fw6 ph0 mh0 pb5">Book Parking</div> -->
-      <div class="f4 fw6 ph0 mh0 pb5">
+      <!-- <div class="f3 fw5 ph0 mh0 tc georgia pb5">Book Parking</div> -->
+      <div class="f3 fw5 ph0 mh0 tc georgia pb5">
         {{ selectedGarage }} {{ selectedGarageId }} - {{ selectedSpaceId }}
       </div>
       <div class="overflow-auto">
@@ -154,7 +154,7 @@
     >
       <fieldset id="create_garage" class="ba b--transparent black ph0 mh0">
         <div class="mt2">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Vehicle Number</mat-label>
             <input
               formControlName="vehicleNumber"
@@ -168,7 +168,7 @@
         </div>
 
         <div class="mt2">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Driver Name</mat-label>
             <input
               formControlName="driverName"

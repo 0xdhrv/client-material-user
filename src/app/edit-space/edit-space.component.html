@@ -10,7 +10,7 @@
           width="27"
           height="25"
           viewBox="0 0 27 25"
-          outline="none"
+          legacy="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
@@ -34,9 +34,9 @@
       (ngSubmit)="onSubmit()"
     >
       <fieldset id="create_garage" class="ba b--transparent black ph0 mh0">
-        <legend class="f4 fw6 ph0 mh0">Edit Space</legend>
+        <legend class="f3 fw5 ph0 mh0 tc georgia">Edit Space</legend>
         <div class="mt2">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Code</mat-label>
             <input formControlName="code" matInput placeholder="A100" />
             <mat-error *ngIf="f.code.hasError('required')">
@@ -46,7 +46,7 @@
         </div>
 
         <div class="mt2">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="legacy">
             <mat-label>Total Capacity</mat-label>
             <input formControlName="totalCapacity" matInput placeholder="25" />
             <mat-error *ngIf="f.totalCapacity.hasError('required')">

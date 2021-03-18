@@ -1,9 +1,50 @@
 <div class="app-container">
   <header class="bg-white inter br--bottom br4">
-    <nav class="dt w-100 border-box pa3 ph5-ns">
+    <nav class="dt w-100 border-box pa3 ph5-ns bb b--black">
       <a
+        *ngIf="user && user.role == 'Admin'"
+        routerLink="/admin"
+        class="dtc v-mid light-purple hover-black link w-25"
+        title="Home"
+      >
+        <div class="flex items-center">
+          <div class="di pa2 v-mid mono-heading">mecpark.</div>
+        </div>
+      </a>
+      <a
+        *ngIf="user && user.role == 'ParkingManager'"
+        routerLink="/parkingmanager"
+        class="dtc v-mid light-purple hover-black link w-25"
+        title="Home"
+      >
+        <div class="flex items-center">
+          <div class="di pa2 v-mid mono-heading">mecpark.</div>
+        </div>
+      </a>
+      <a
+        *ngIf="user && user.role == 'AllocationManager'"
+        routerLink="/allocationmanager"
+        class="dtc v-mid light-purple hover-black link w-25"
+        title="Home"
+      >
+        <div class="flex items-center">
+          <div class="di pa2 v-mid mono-heading">mecpark.</div>
+        </div>
+      </a>
+      <a
+        *ngIf="user && user.role == 'User'"
+        routerLink="/user"
+        class="dtc v-mid light-purple hover-black link w-25"
+        title="Home"
+      >
+        <div class="flex items-center">
+          <div class="di pa2 v-mid mono-heading">mecpark.</div>
+        </div>
+      </a>
+      <a
+        *ngIf="!user"
         routerLink="/"
-        class="dtc v-mid blue hover-black link w-25"
+        class="dtc v-mid light-purple hover-black link w-25"
         title="Home"
       >
         <div class="flex items-center">
@@ -83,7 +124,7 @@
         </ng-template>
         <ng-template #elseNavLogOut>
           <button
-            class="pa2 ba b--light-blue"
+            class="pa2 ba b--light-purple"
             mat-stroked-button
             color="accent"
             routerLink="/login"
@@ -96,10 +137,6 @@
   </header>
   <div
     class="vh-100"
-    [ngClass]="{
-      'bg-washed-blue': user && user.role == 'Admin',
-      'bg-washed-red': user && user.role == 'ParkingManager'
-    }"
   >
     <router-outlet></router-outlet>
   </div>
@@ -108,6 +145,6 @@
 <ngx-loading-bar
   [includeSpinner]="false"
   height="4px"
-  color="#CDECFF"
+  color="#A463F2"
 ></ngx-loading-bar>
 <!-- <router-outlet></router-outlet> -->

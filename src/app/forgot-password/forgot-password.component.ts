@@ -28,16 +28,9 @@ export class ForgotPasswordComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    // stop here if form is invalid
     if (this.forgotPasswordForm.invalid) {
       return;
     }
-
-    // display form values on success
-    alert(
-      'SUCCESS!! :-)\n\n' +
-        JSON.stringify(this.forgotPasswordForm.value, null, 4)
-    );
   }
 
   onReset() {
